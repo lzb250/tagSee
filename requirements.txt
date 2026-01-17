@@ -10,7 +10,6 @@ safetensors>=0.3.0
 # NLP and Text Processing
 jieba>=0.42.1
 spacy>=3.0.0
-zh-core-web-sm>=3.8.0
 
 # File Processing
 pdfplumber>=0.7.0
@@ -28,7 +27,3 @@ tqdm>=4.64.0
 packaging>=20.0
 requests>=2.25.0
 urllib3>=1.26.0
-
-# Optional: for advanced features
-accelerate>=0.20.0
-huggingface-hub>=0.15.0

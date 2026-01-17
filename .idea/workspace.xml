@@ -4,26 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b73ab549-cef7-4386-becf-19fe1b62dccd" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/TagSee.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/config/computer_skills.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/config/config/model_config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/resume1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/computer_resume_processor.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/cross_platform_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data_preprocessing.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/inference.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model_training.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/resume_parser.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/tokenizer.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/train_offline.py" afterDir="false" />
+    <list default="true" id="b73ab549-cef7-4386-becf-19fe1b62dccd" name="更改" comment="init">
+      <change afterPath="$PROJECT_DIR$/models/bert-base-chinese/config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/bert-base-chinese/pytorch_model.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/bert-base-chinese/tokenizer.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/bert-base-chinese/tokenizer_config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/bert-base-chinese/vocab.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config/computer_skills.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/computer_skills.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config/model_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/model_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data_preprocessing.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/data_preprocessing.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,9 +31,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="38NUUiVweTF4OfJzop4jhllfl85" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -53,13 +44,19 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/LJY/PycharmProjects/TagSee/models/bert-base-chinese&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\LJY\PycharmProjects\TagSee\config" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -76,6 +73,19 @@
       <option name="presentableId" value="Default" />
       <updated>1768639539766</updated>
     </task>
+    <task id="LOCAL-00001" summary="init">
+      <option name="closed" value="true" />
+      <created>1768641274889</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1768641274889</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
   </component>
 </project>
