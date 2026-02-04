@@ -15,7 +15,7 @@ def main():
     parser = argparse.ArgumentParser(description='离线训练简历技能提取模型')
     parser.add_argument('--synthetic_samples', type=int, default=2000,
                         help='生成合成样本数量')
-    parser.add_argument('--epochs', type=int, default=1,
+    parser.add_argument('--epochs', type=int, default=10,
                         help='训练轮数')
     parser.add_argument('--batch_size', type=int, default=12,
                         help='批次大小')

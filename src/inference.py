@@ -1,49 +1,51 @@
-# src/inference.py
+# -*- coding: utf-8 -*-
+import os
+import sys
 import re
-from typing import List
 from pathlib import Path
 
+# 1. 修复环境冲突
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+
 import torch
+import jieba
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 
-from config.computer_skills import SKILL_NORMALIZATION
-from .cross_platform_utils import safe_path, get_torch_device
-import jieba
+# 确保项目根目录在路径中
+project_root = r"C:\Users\LJY\PycharmProjects\TagSee"
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+
+from config.computer_skills import SKILL_NORMALIZATION, ALL_COMPUTER_SKILLS, COMPUTER_SKILLS
+from src.cross_platform_utils import get_torch_device
 
 class SkillExtractor:
-    """技能提取推理器（支持本地训练模型）"""
-
     def __init__(self, model_path: str):
-        self.model_path = safe_path(model_path)
-
-        if not self.model_path.exists():
-            raise FileNotFoundError(f"模型路径不存在: {model_path}")
-
+        self.model_path = Path(model_path)
         self.device = get_torch_device()
-        print(f"使用设备: {self.device}")
 
-        # 加载本地 tokenizer 和模型
+        # 加载模型
         self.tokenizer = AutoTokenizer.from_pretrained(str(self.model_path), local_files_only=True)
         self.model = AutoModelForTokenClassification.from_pretrained(str(self.model_path), local_files_only=True)
         self.model.to(self.device)
         self.model.eval()
 
-        # 标签映射
         self.id2label = {0: 'O', 1: 'B-SKILL', 2: 'I-SKILL'}
         self.normalization_map = SKILL_NORMALIZATION
 
-    def extract_skills(self, resume_text: str) -> List[str]:
-        """从简历文本中提取技能"""
+        # 预载技能库用于保底搜索 (Java Set 风格)
+        self.skills_lookup = set(skill.lower() for skill in ALL_COMPUTER_SKILLS)
 
-        if not resume_text.strip():
+        # 注入分词词典
+        for skill in ALL_COMPUTER_SKILLS:
+            jieba.add_word(skill, freq=5000)
+
+    def extract(self, text: str) -> list:
+        if not text or not text.strip():
             return []
 
-        # 使用 jieba 分词
-        tokens = list(jieba.cut(resume_text))
-        if not tokens:
-            return []
-
-        # 编码
+        # A. 模型推理流
+        tokens = list(jieba.cut(text))
         inputs = self.tokenizer(
             tokens,
             is_split_into_words=True,
@@ -51,91 +53,65 @@ class SkillExtractor:
             truncation=True,
             padding=True,
             max_length=512
-        )
+        ).to(self.device)
 
-        # ⚠ 解决旧版本 transformers 无 word_ids() 报错
-        if hasattr(inputs, "word_ids"):
-            word_ids = inputs.word_ids()
-        else:
-            # 兼容旧版本
-            batch_word_ids = []
-            for i in range(inputs["input_ids"].size(0)):
-                if hasattr(self.tokenizer, "batch_encode_plus"):
-                    enc = self.tokenizer.batch_encode_plus([tokens])
-                    batch_word_ids.append(enc.word_ids(batch_index=0))
-            word_ids = batch_word_ids[0] if batch_word_ids else [None]*len(tokens)
-
-        # 移动到设备
-        inputs = {k: v.to(self.device) for k, v in inputs.items()}
-
-        # 推理
         with torch.no_grad():
             outputs = self.model(**inputs)
-            predictions = torch.argmax(outputs.logits, dim=-1)[0].tolist()
+            preds = torch.argmax(outputs.logits, dim=-1)[0].tolist()
 
-        # 提取技能
-        skills = []
-        current_skill_tokens = []
+        # B. 解码模型结果
+        word_ids = inputs.word_ids()
+        model_results = self._decode_and_clean(tokens, word_ids, preds)
 
+        # C. 【保底逻辑】如果模型没扫出来，直接用词典在分词结果里过一遍
+        # 这种双路合并（Merge）机制保证了高召回率
+        if not model_results:
+            fallback_results = [
+                t for t in tokens
+                if t.lower() in self.skills_lookup or t in ALL_COMPUTER_SKILLS
+            ]
+            model_results = fallback_results
+
+        # D. 最终链式清洗
+        return self._final_pipeline(model_results)
+
+    def _decode_and_clean(self, tokens, word_ids, preds):
+        chunks, current = [], []
         for idx, word_id in enumerate(word_ids):
-            if word_id is None:
-                continue
-
-            label_id = predictions[idx]
-            label = self.id2label.get(label_id, 'O')
-            token = tokens[word_id] if word_id < len(tokens) else ""
-
+            if word_id is None: continue
+            label = self.id2label.get(preds[idx], 'O')
             if label == 'B-SKILL':
-                if current_skill_tokens:
-                    skill_str = ''.join(current_skill_tokens)
-                    if self._is_valid_skill(skill_str):
-                        skills.append(skill_str)
-                    current_skill_tokens = []
-                current_skill_tokens.append(token)
+                if current: chunks.append("".join(current))
+                current = [tokens[word_id]]
             elif label == 'I-SKILL':
-                current_skill_tokens.append(token)
+                current.append(tokens[word_id])
             else:
-                if current_skill_tokens:
-                    skill_str = ''.join(current_skill_tokens)
-                    if self._is_valid_skill(skill_str):
-                        skills.append(skill_str)
-                    current_skill_tokens = []
+                if current: chunks.append("".join(current))
+                current = []
+        if current: chunks.append("".join(current))
+        return chunks
 
-        # 处理最后一个技能
-        if current_skill_tokens:
-            skill_str = ''.join(current_skill_tokens)
-            if self._is_valid_skill(skill_str):
-                skills.append(skill_str)
+    def _final_pipeline(self, chunks):
+        """链式过滤与归一化"""
+        return sorted(list(set(
+            self.normalization_map.get(c.lower(), c)
+            for c in chunks
+            if len(c) >= 2  # 过滤单字
+            and not re.match(r'^[\u4e00-\u9fff]$', c) # 过滤单个中文字
+            and not re.match(r'^[0-9.\W]+$', c) # 过滤纯符号/数字
+        )))
 
-        # 标准化技能名称
-        normalized_skills = [self.normalization_map.get(s.lower(), s) for s in skills]
-
-        # 去重
-        final_skills = list(set(filter(self._is_valid_skill, normalized_skills)))
-
-        return final_skills
-
-    def _is_valid_skill(self, skill: str) -> bool:
-        """验证技能是否有效"""
-        if not skill or len(skill.strip()) < 2:
-            return False
-        skill = skill.strip()
-        if not re.search(r'[a-zA-Z0-9\u4e00-\u9fff]', skill):
-            return False
-        if re.match(r'^[\d\s\W]+$', skill):
-            return False
-        invalid_patterns = [r'^[a-z]$', r'^[A-Z]$', r'^\d+$', r'^[+\-*/=<>|&^%$#@!~`]+$']
-        for pattern in invalid_patterns:
-            if re.match(pattern, skill):
-                return False
-        return True
-
-
-# 使用示例
 if __name__ == "__main__":
-    model_path = "./models/skill_extraction_model_final"
-    extractor = SkillExtractor(model_path)
+    MODEL_PATH = r"C:\Users\LJY\PycharmProjects\TagSee\models\skill_extraction_model_final"
 
-    test_text = "我精通Python和React，熟悉Docker容器化技术"
-    skills = extractor.extract_skills(test_text)
-    print("提取技能:", skills)
+    try:
+        extractor = SkillExtractor(MODEL_PATH)
+        test_text = "本人熟练使用Java编程，掌握Spring Cloud微服务架构。对Vue.js有一定了解，负责过MySQL数据库调优。"
+
+        print("\n" + "🚀 识别结果 " + "="*30)
+        print(f"输入: {test_text}")
+        print(f"技能标签: {extractor.extract(test_text)}")
+        print("="*41)
+
+    except Exception as e:
+        print(f"错误: {e}")

@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b73ab549-cef7-4386-becf-19fe1b62dccd" name="更改" comment="feat(core): 添加简历技能提取核心功能&#10;&#10;- 实现简历解析器，支持PDF、Word、TXT等多种格式&#10;- 集成BERT中文预训练模型用于技能识别&#10;- 开发跨平台文本处理工具类&#10;- 实现技能词典匹配算法&#10;- 添加计算机专业简历增强处理逻辑&#10;- 创建数据预处理模块，支持BIO标注格式&#10;- 实现批量处理目录功能&#10;- 添加模型测试脚本&#10;- 更新依赖配置文件&#10;- 创建.gitignore忽略模型文件&#10;- 重构代码结构提升可维护性">
+    <list default="true" id="b73ab549-cef7-4386-becf-19fe1b62dccd" name="更改" comment="feat(inference): 添加简历技能提取核心功能&#10;&#10;- 实现基于BERT模型的中文技能提取器&#10;- 集成数据预处理模块支持合成数据生成&#10;- 添加跨平台文件处理和安全路径管理&#10;- 实现批量简历处理和结果导出功能&#10;- 优化代码结构支持模型推理和测试&#10;- 更新依赖配置移除不必要的包引用&#10;- 重构IDEA工作空间配置文件结构">
+      <change afterPath="$PROJECT_DIR$/data/resume2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/resume3.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train_offline.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_offline.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +23,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo">{
@@ -35,18 +43,50 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/LJY/PycharmProjects/TagSee/models/bert-base-chinese&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "masterGemini",
+    "last_opened_file_path": "C:/Users/LJY/PycharmProjects/TagSee/data",
+    "settings.editor.selected.configurable": "preferences.keymap"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\LJY\PycharmProjects\TagSee\data" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\LJY\PycharmProjects\TagSee\config" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="inference" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TagSee" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/inference.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.inference" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -80,14 +120,46 @@
       <option name="project" value="LOCAL" />
       <updated>1768645576054</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feat(inference): 添加简历技能提取核心功能&#10;&#10;- 实现基于BERT模型的中文技能提取器&#10;- 集成数据预处理模块支持合成数据生成&#10;- 添加跨平台文件处理和安全路径管理&#10;- 实现批量简历处理和结果导出功能&#10;- 优化代码结构支持模型推理和测试&#10;- 更新依赖配置移除不必要的包引用&#10;- 重构IDEA工作空间配置文件结构">
+      <option name="closed" value="true" />
+      <created>1768646676265</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1768646676265</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="masterGemini" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
     <MESSAGE value="feat(core): 添加简历技能提取核心功能&#10;&#10;- 实现基于BERT模型的中文技能提取器&#10;- 集成数据预处理模块支持合成数据生成&#10;- 添加跨平台文件处理和安全路径管理&#10;- 实现批量简历处理和结果导出功能&#10;- 优化代码结构支持模型推理和测试&#10;- 更新依赖配置移除不必要的包引用&#10;- 重构IDEA工作空间配置文件结构" />
     <MESSAGE value="feat(core): 添加BERT中文模型配置和优化技能提取功能&#10;&#10;- 添加bert-base-chinese模型配置文件到models目录&#10;- 更新.gitignore文件排除模型文件&#10;- 重构DataPreprocessor类中的内部方法为公共方法&#10;- 新增extract_skills.py脚本实现完整的技能提取功能&#10;- 移除zh-core-web-sm依赖并清理requirements.txt&#10;- 添加test_model.py用于模型测试功能&#10;- 更新IDEA工作区配置文件" />
     <MESSAGE value="feat(core): 添加简历技能提取核心功能&#10;&#10;- 实现简历解析器，支持PDF、Word、TXT等多种格式&#10;- 集成BERT中文预训练模型用于技能识别&#10;- 开发跨平台文本处理工具类&#10;- 实现技能词典匹配算法&#10;- 添加计算机专业简历增强处理逻辑&#10;- 创建数据预处理模块，支持BIO标注格式&#10;- 实现批量处理目录功能&#10;- 添加模型测试脚本&#10;- 更新依赖配置文件&#10;- 创建.gitignore忽略模型文件&#10;- 重构代码结构提升可维护性" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(core): 添加简历技能提取核心功能&#10;&#10;- 实现简历解析器，支持PDF、Word、TXT等多种格式&#10;- 集成BERT中文预训练模型用于技能识别&#10;- 开发跨平台文本处理工具类&#10;- 实现技能词典匹配算法&#10;- 添加计算机专业简历增强处理逻辑&#10;- 创建数据预处理模块，支持BIO标注格式&#10;- 实现批量处理目录功能&#10;- 添加模型测试脚本&#10;- 更新依赖配置文件&#10;- 创建.gitignore忽略模型文件&#10;- 重构代码结构提升可维护性" />
+    <MESSAGE value="feat(inference): 添加简历技能提取核心功能&#10;&#10;- 实现基于BERT模型的中文技能提取器&#10;- 集成数据预处理模块支持合成数据生成&#10;- 添加跨平台文件处理和安全路径管理&#10;- 实现批量简历处理和结果导出功能&#10;- 优化代码结构支持模型推理和测试&#10;- 更新依赖配置移除不必要的包引用&#10;- 重构IDEA工作空间配置文件结构" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(inference): 添加简历技能提取核心功能&#10;&#10;- 实现基于BERT模型的中文技能提取器&#10;- 集成数据预处理模块支持合成数据生成&#10;- 添加跨平台文件处理和安全路径管理&#10;- 实现批量简历处理和结果导出功能&#10;- 优化代码结构支持模型推理和测试&#10;- 更新依赖配置移除不必要的包引用&#10;- 重构IDEA工作空间配置文件结构" />
   </component>
 </project>

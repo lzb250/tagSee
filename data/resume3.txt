@@ -1,0 +1,13 @@
+姓名：李四
+教育背景：北京大学软件工程专业，本科
+工作经验：3年
+技能：
+- 编程语言：Go、JavaScript、TypeScript
+- 前端框架：Vue、Angular、Bootstrap
+- 后端框架：Spring Boot、Express
+- 数据库：Redis、SQLite、MongoDB
+- 云平台：Google Cloud、华为云
+- DevOps：Git、Docker、CircleCI
+项目经验：
+- 移动社交应用开发：使用 Vue + Go 实现高性能后端服务
+- 金融数据处理：使用 Spring Boot + Redis 构建实时数据服务
