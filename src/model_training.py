@@ -1,10 +1,51 @@
+"""
+文件路径: src/model_training.py
+功能解析: 模型训练模块
+
+主要功能:
+1. SkillExtractionDataset 类
+   - 继承自 PyTorch Dataset，用于训练数据加载
+   - 使用 BERT tokenizer 将文本序列转换为 token IDs
+   - 对齐标签序列，处理特殊 token（[CLS], [SEP], [PAD]）
+
+2. 核心方法
+   - train_skill_extraction_model(): 训练技能提取模型
+     - 支持 BERT-base-chinese 或自定义模型路径
+     - 配置训练参数（epochs, batch_size 等）
+     - 使用 HuggingFace Trainer 进行训练
+     - 自动保存最佳模型（基于 F1 分数）
+     - 兼容新旧版本 transformers 库
+   
+   - compute_metrics(): 计算评估指标
+     - 准确率
+     - 精确率
+     - 召回率
+     - F1 分数
+
+3. 训练流程
+   - 加载预训练 BERT 模型和分词器
+   - 创建训练集和验证集 Dataset
+   - 设置训练参数和优化器
+   - 自动评估和保存最佳模型
+
+使用场景:
+- 离线模型训练
+- 模型微调
+- 跨平台训练（支持 CUDA、MPS、CPU）
+---
+"""
+
 # src/model_training.py
 import torch
 import numpy as np
 from torch.utils.data import Dataset
 from transformers import (
     AutoTokenizer,
+    BertTokenizer,
+    BertTokenizerFast,
     AutoModelForTokenClassification,
+    BertForTokenClassification,
+    BertConfig,
     TrainingArguments,
     Trainer,
     DataCollatorForTokenClassification
@@ -32,13 +73,13 @@ class SkillExtractionDataset(Dataset):
             if len(text) == 0:
                 continue
 
+            # 不使用 return_offset_mapping，直接编码
             encoding = self.tokenizer(
                 text,
                 truncation=True,
                 padding='max_length',
                 max_length=max_length,
-                is_split_into_words=True,
-                return_offsets_mapping=True
+                is_split_into_words=True
             )
 
             # 对齐标签
@@ -55,8 +96,6 @@ class SkillExtractionDataset(Dataset):
                         aligned_labels.append(-100)
 
             encoding['labels'] = aligned_labels
-            # 移除不需要的字段
-            del encoding['offset_mapping']
             self.encodings.append(encoding)
 
     def __len__(self):
@@ -122,27 +161,31 @@ def train_skill_extraction_model(
 
     safe_print(f"加载模型: {model_name}")
 
+    # 创建配置，确保使用中文BERT的正确配置
+    config = BertConfig(
+        vocab_size=21128,  # 中文BERT的词表大小
+        num_labels=3,
+        id2label={0: 'O', 1: 'B-SKILL', 2: 'I-SKILL'},
+        label2id={'O': 0, 'B-SKILL': 1, 'I-SKILL': 2}
+    )
+
     # 直接使用传入的路径，强制离线模式
     try:
-        tokenizer = AutoTokenizer.from_pretrained(model_name, local_files_only=True)
-        model = AutoModelForTokenClassification.from_pretrained(
+        tokenizer = BertTokenizerFast.from_pretrained(model_name, local_files_only=True)
+        model = BertForTokenClassification.from_pretrained(
             model_name,
-            num_labels=3,
-            id2label={0: 'O', 1: 'B-SKILL', 2: 'I-SKILL'},
-            label2id={'O': 0, 'B-SKILL': 1, 'I-SKILL': 2},
+            config=config,
             local_files_only=True
         )
         safe_print("✓ 模型加载成功（离线模式）")
     except Exception as e:
         safe_print(f"离线加载失败: {e}")
         safe_print("尝试不使用 local_files_only 参数...")
-        # 如果 local_files_only 失败，尝试普通加载（但你的文件是完整的，应该不会失败）
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
-        model = AutoModelForTokenClassification.from_pretrained(
+        # 如果 local_files_only 失败，尝试普通加载
+        tokenizer = BertTokenizerFast.from_pretrained(model_name)
+        model = BertForTokenClassification.from_pretrained(
             model_name,
-            num_labels=3,
-            id2label={0: 'O', 1: 'B-SKILL', 2: 'I-SKILL'},
-            label2id={'O': 0, 'B-SKILL': 1, 'I-SKILL': 2}
+            config=config
         )
 
     # 创建数据集

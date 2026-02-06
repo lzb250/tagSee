@@ -5,12 +5,17 @@ import os
 import sys
 import argparse
 from pathlib import Path
+from datetime import datetime
 from src.cross_platform_utils import setup_encoding, safe_print
 from src.data_preprocessing import DataPreprocessor
 from sklearn.model_selection import train_test_split
 
 def main():
     setup_encoding()
+
+    # 1. 生成动态的时间戳字符串
+    timestamp = datetime.now().strftime("%Y%m%d%H%M")
+    default_output = f"./models/skill_extraction_model_{timestamp}"
 
     parser = argparse.ArgumentParser(description='离线训练简历技能提取模型')
     parser.add_argument('--synthetic_samples', type=int, default=2000,
@@ -19,14 +24,12 @@ def main():
                         help='训练轮数')
     parser.add_argument('--batch_size', type=int, default=12,
                         help='批次大小')
-    parser.add_argument('--output_dir', type=str, default='./models/skill_extraction_model',
-                        help='模型输出目录')
+    parser.add_argument('--output_dir', type=str, default=default_output,
+                        help='模型输出目录（默认带时间戳）')
 
     args = parser.parse_args()
 
-
-
-    safe_print("开始准备训练数据...")
+    safe_print(f"开始准备训练数据... 输出目录: {args.output_dir}")
 
     # 创建数据预处理器
     preprocessor = DataPreprocessor()
@@ -55,6 +58,7 @@ def main():
         from src.model_training import train_skill_extraction_model
 
         # 直接使用本地路径，不通过配置
+        # 建议确保该目录存在于项目根目录下的 models 文件夹中
         local_model_path = "./models/bert-base-chinese"
 
         # 先测试模型是否能加载

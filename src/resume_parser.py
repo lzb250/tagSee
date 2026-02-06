@@ -1,4 +1,28 @@
-# src/resume_parser.py
+"""
+文件路径: src/resume_parser.py
+功能解析: 简历文件解析模块
+
+主要功能:
+1. ResumeParser 类
+   - 支持多种简历格式解析：TXT、PDF、DOCX
+   - 自动检测文件编码（支持 utf-8、gbk、gb2312 等）
+   - 提取 PDF 文档的文本内容（使用 pdfplumber）
+   - 提取 Word 文档的文本内容（包括段落和表格）
+   - 文本清洗：移除多余空白和特殊字符
+
+2. 核心方法
+   - extract_text(): 从指定文件路径提取文本内容
+   - _extract_from_txt(): 处理纯文本文件
+   - _extract_from_pdf(): 处理 PDF 文件
+   - _extract_from_docx(): 处理 Word 文件
+   - clean_text(): 清理提取的文本内容
+
+使用场景:
+- 批量简历文件处理
+- 多格式简历统一解析
+- 简历文本预处理
+---
+"""
 import os
 import re
 from pathlib import Path

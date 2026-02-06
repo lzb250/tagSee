@@ -1,3 +1,25 @@
+"""
+文件路径: src/data_preprocessing.py
+功能解析: 数据预处理和标注生成模块
+
+主要功能:
+1. DataPreprocessor 类
+   - 生成合成训练数据（模拟真实简历文本）
+   - 创建 BIO 格式的序列标注
+   - 保存数据集为 JSON 或 CoNLL 格式
+
+2. 核心方法
+   - create_bio_annotations(): 从原始文本创建 BIO 标注
+   - generate_synthetic_data(): 生成合成训练数据
+   - save_dataset(): 保存数据集
+
+使用场景:
+- 训练数据生成和增强
+- 序列标注数据准备
+- 跨平台数据处理
+---
+"""
+
 # src/data_preprocessing.py
 import json
 import random
@@ -80,20 +102,20 @@ class DataPreprocessor:
         return False
 
     def _is_valid_skill_position(self, text: str, pos: int, length: int) -> bool:
-            """检查技能位置是否有效"""
-            # 检查前一个字符
-            if pos > 0:
-                prev_char = text[pos - 1]
-                if prev_char.isalnum() or prev_char in '_':
-                    return False
+        """检查技能位置是否有效"""
+        # 检查前一个字符
+        if pos > 0:
+            prev_char = text[pos - 1]
+            if prev_char.isalnum() or prev_char in '_':
+                return False
 
-            # 检查后一个字符
-            if pos + length < len(text):
-                next_char = text[pos + length]
-                if next_char.isalnum() or next_char in '_':
-                    return False
+        # 检查后一个字符
+        if pos + length < len(text):
+            next_char = text[pos + length]
+            if next_char.isalnum() or next_char in '_':
+                return False
 
-            return True
+        return True
 
     def _is_word_boundary(self, text: str, pos: int, length: int) -> bool:
         """检查是否为单词边界"""
@@ -198,6 +220,6 @@ class DataPreprocessor:
 
         # 使用示例
 
-    if __name__ == "__main__":
-        preprocessor = DataPreprocessor()
-        # 生成合成数据...
+if __name__ == "__main__":
+    preprocessor = DataPreprocessor()
+    # 生成合成数据...

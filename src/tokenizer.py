@@ -1,4 +1,33 @@
 # src/tokenizer.py
+
+"""
+文件路径: src/tokenizer.py
+功能解析: 中文分词器模块
+
+主要功能:
+1. CrossPlatformTokenizer 类
+   - 基于 jieba 分词器，支持中文文本分词
+   - 自动注入计算机专业词汇到词典
+   - 支持自定义词典加载
+   - 带词性的分词标注
+
+2. 核心方法
+   - tokenize(): 基础中文分词
+   - tokenize_with_pos(): 带词性标注的分词
+   - find_skills_in_text(): 直接在文本中查找技能（不依赖分词）
+
+3. 特性
+   - 预注入计算机技能词汇（如 Python、Java、Django 等）
+   - 预注入常见技术术语（如 机器学习、深度学习等）
+   - 支持完整单词匹配验证
+
+使用场景:
+- 文本预处理
+- 技能关键词匹配
+- 中文 NLP 任务
+---
+"""
+
 import jieba
 import jieba.posseg as pseg
 from typing import List, Tuple

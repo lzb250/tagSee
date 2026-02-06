@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b73ab549-cef7-4386-becf-19fe1b62dccd" name="更改" comment="feat(inference): 优化简历技能提取核心功能&#10;&#10;- 实现基于BERT模型的中文技能提取器&#10;- 集成数据预处理模块支持合成数据生成&#10;- 添加跨平台文件处理和安全路径管理&#10;- 实现批量简历处理和结果导出功能&#10;- 优化代码结构支持模型推理和测试&#10;- 更新依赖配置移除不必要的包引用&#10;- 重构IDEA工作空间配置文件结构&#10;- 添加环境冲突修复和项目路径配置&#10;- 实现保底技能词典匹配机制提高召回率&#10;- 添加链式过滤与归一化处理流程&#10;- 新增测试简历数据文件用于验证功能" />
+    <list default="true" id="b73ab549-cef7-4386-becf-19fe1b62dccd" name="更改" comment="feat(config): 更新计算机技能配置文件&#10;&#10;- 添加人工智能与大模型相关技能分类&#10;- 增加移动开发、大数据、测试与质量、嵌入式与物联网新分类&#10;- 扩展编程语言列表，加入Dart、Objective-C等语言&#10;- 补充前端框架，增加SolidJS、Three.js等技术&#10;- 完善后端框架，添加Sanic、Tornado等框架&#10;- 扩展数据库选项，增加Milvus、Pinecone等向量数据库&#10;- 更新云平台与基础设施分类名称和内容&#10;- 增加DevOps工具如K8s、ArgoCD、Helm等&#10;- 扩展操作系统支持，添加Android、iOS&#10;- 更新技能标准化映射，增加多种别名&#10;- 优化IDEA工作空间配置文件结构&#10;- 添加环境冲突修复和项目路径配置&#10;- 实现保底技能词典匹配机制提高召回率&#10;- 添加链式过滤与归一化处理流程&#10;- 新增测试简历数据文件用于验证功能">
+      <change afterPath="$PROJECT_DIR$/dd.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/downloadModel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data_preprocessing.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/data_preprocessing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/model_training.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model_training.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/resume_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/resume_parser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tokenizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tokenizer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train_offline.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_offline.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,20 +47,21 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.inference.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "masterGemini",
-    "last_opened_file_path": "C:/Users/LJY/PycharmProjects/TagSee/data",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.inference.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;masterGemini&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/LJY/PycharmProjects/TagSee/data&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\LJY\PycharmProjects\TagSee\data" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\LJY\PycharmProjects\TagSee" />
       <recent name="C:\Users\LJY\PycharmProjects\TagSee\config" />
     </key>
   </component>
@@ -132,7 +142,15 @@
       <option name="project" value="LOCAL" />
       <updated>1770218417491</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="feat(config): 更新计算机技能配置文件&#10;&#10;- 添加人工智能与大模型相关技能分类&#10;- 增加移动开发、大数据、测试与质量、嵌入式与物联网新分类&#10;- 扩展编程语言列表，加入Dart、Objective-C等语言&#10;- 补充前端框架，增加SolidJS、Three.js等技术&#10;- 完善后端框架，添加Sanic、Tornado等框架&#10;- 扩展数据库选项，增加Milvus、Pinecone等向量数据库&#10;- 更新云平台与基础设施分类名称和内容&#10;- 增加DevOps工具如K8s、ArgoCD、Helm等&#10;- 扩展操作系统支持，添加Android、iOS&#10;- 更新技能标准化映射，增加多种别名&#10;- 优化IDEA工作空间配置文件结构&#10;- 添加环境冲突修复和项目路径配置&#10;- 实现保底技能词典匹配机制提高召回率&#10;- 添加链式过滤与归一化处理流程&#10;- 新增测试简历数据文件用于验证功能">
+      <option name="closed" value="true" />
+      <created>1770218578478</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1770218578478</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -165,6 +183,7 @@
     <MESSAGE value="feat(core): 添加简历技能提取核心功能&#10;&#10;- 实现简历解析器，支持PDF、Word、TXT等多种格式&#10;- 集成BERT中文预训练模型用于技能识别&#10;- 开发跨平台文本处理工具类&#10;- 实现技能词典匹配算法&#10;- 添加计算机专业简历增强处理逻辑&#10;- 创建数据预处理模块，支持BIO标注格式&#10;- 实现批量处理目录功能&#10;- 添加模型测试脚本&#10;- 更新依赖配置文件&#10;- 创建.gitignore忽略模型文件&#10;- 重构代码结构提升可维护性" />
     <MESSAGE value="feat(inference): 添加简历技能提取核心功能&#10;&#10;- 实现基于BERT模型的中文技能提取器&#10;- 集成数据预处理模块支持合成数据生成&#10;- 添加跨平台文件处理和安全路径管理&#10;- 实现批量简历处理和结果导出功能&#10;- 优化代码结构支持模型推理和测试&#10;- 更新依赖配置移除不必要的包引用&#10;- 重构IDEA工作空间配置文件结构" />
     <MESSAGE value="feat(inference): 优化简历技能提取核心功能&#10;&#10;- 实现基于BERT模型的中文技能提取器&#10;- 集成数据预处理模块支持合成数据生成&#10;- 添加跨平台文件处理和安全路径管理&#10;- 实现批量简历处理和结果导出功能&#10;- 优化代码结构支持模型推理和测试&#10;- 更新依赖配置移除不必要的包引用&#10;- 重构IDEA工作空间配置文件结构&#10;- 添加环境冲突修复和项目路径配置&#10;- 实现保底技能词典匹配机制提高召回率&#10;- 添加链式过滤与归一化处理流程&#10;- 新增测试简历数据文件用于验证功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(inference): 优化简历技能提取核心功能&#10;&#10;- 实现基于BERT模型的中文技能提取器&#10;- 集成数据预处理模块支持合成数据生成&#10;- 添加跨平台文件处理和安全路径管理&#10;- 实现批量简历处理和结果导出功能&#10;- 优化代码结构支持模型推理和测试&#10;- 更新依赖配置移除不必要的包引用&#10;- 重构IDEA工作空间配置文件结构&#10;- 添加环境冲突修复和项目路径配置&#10;- 实现保底技能词典匹配机制提高召回率&#10;- 添加链式过滤与归一化处理流程&#10;- 新增测试简历数据文件用于验证功能" />
+    <MESSAGE value="feat(config): 更新计算机技能配置文件&#10;&#10;- 添加人工智能与大模型相关技能分类&#10;- 增加移动开发、大数据、测试与质量、嵌入式与物联网新分类&#10;- 扩展编程语言列表，加入Dart、Objective-C等语言&#10;- 补充前端框架，增加SolidJS、Three.js等技术&#10;- 完善后端框架，添加Sanic、Tornado等框架&#10;- 扩展数据库选项，增加Milvus、Pinecone等向量数据库&#10;- 更新云平台与基础设施分类名称和内容&#10;- 增加DevOps工具如K8s、ArgoCD、Helm等&#10;- 扩展操作系统支持，添加Android、iOS&#10;- 更新技能标准化映射，增加多种别名&#10;- 优化IDEA工作空间配置文件结构&#10;- 添加环境冲突修复和项目路径配置&#10;- 实现保底技能词典匹配机制提高召回率&#10;- 添加链式过滤与归一化处理流程&#10;- 新增测试简历数据文件用于验证功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(config): 更新计算机技能配置文件&#10;&#10;- 添加人工智能与大模型相关技能分类&#10;- 增加移动开发、大数据、测试与质量、嵌入式与物联网新分类&#10;- 扩展编程语言列表，加入Dart、Objective-C等语言&#10;- 补充前端框架，增加SolidJS、Three.js等技术&#10;- 完善后端框架，添加Sanic、Tornado等框架&#10;- 扩展数据库选项，增加Milvus、Pinecone等向量数据库&#10;- 更新云平台与基础设施分类名称和内容&#10;- 增加DevOps工具如K8s、ArgoCD、Helm等&#10;- 扩展操作系统支持，添加Android、iOS&#10;- 更新技能标准化映射，增加多种别名&#10;- 优化IDEA工作空间配置文件结构&#10;- 添加环境冲突修复和项目路径配置&#10;- 实现保底技能词典匹配机制提高召回率&#10;- 添加链式过滤与归一化处理流程&#10;- 新增测试简历数据文件用于验证功能" />
   </component>
 </project>
