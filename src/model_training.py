@@ -51,7 +51,8 @@ from transformers import (
     DataCollatorForTokenClassification
 )
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support
-from typing import List
+from typing import List, Dict, Any
+from transformers import TrainerCallback
 
 from config.model_config import get_model_path
 from src.cross_platform_utils import safe_print
@@ -88,7 +89,7 @@ class SkillExtractionDataset(Dataset):
 
             for word_idx in word_ids:
                 if word_idx is None:
-                    aligned_labels.append(-100)  # 忽略特殊token
+                    aligned_labels.append(-100) # 忽略特殊token
                 else:
                     if word_idx < len(label_list):
                         aligned_labels.append(self.label2id[label_list[word_idx]])
@@ -135,24 +136,133 @@ def compute_metrics(eval_pred):
     )
     accuracy = accuracy_score(flat_labels, flat_predictions)
 
+    """返回评估指标结果
+
+    包含的指标：
+    - accuracy: 准确率，预测正确的样本占总样本的比例
+    - precision: 精确率，预测为正例中真正为正例的比例
+    - recall: 召回率，真正为正例中被正确预测为正例的比例
+    - f1: F1分数，精确率和召回率的调和平均值
+    """
     return {
-        'accuracy': accuracy,
+        'accuracy': accuracy, # 保留英文键名用于HuggingFace内部使用
         'f1': f1,
         'precision': precision,
         'recall': recall
     }
+
+
+class MetricsDisplayCallback(TrainerCallback):
+    """自定义回调函数：以表格形式显示评估指标"""
+
+    def __init__(self):
+        self.all_eval_results = []
+
+    def on_evaluate(self, args, state, control, metrics=None, **kwargs):
+        """在每次评估时调用"""
+        if metrics is not None:
+            # 打印评估指标的表格
+            self._print_metrics_table(metrics, state.epoch)
+            # 保存结果用于最终汇总
+            self.all_eval_results.append({
+                'epoch': state.epoch,
+                'metrics': metrics.copy()
+            })
+
+    def on_train_end(self, args, state, control, **kwargs):
+        """训练结束时打印汇总表格"""
+        if self.all_eval_results:
+            safe_print("\n" + "="*60)
+            safe_print("训练完成 - 评估指标汇总")
+            safe_print("="*60)
+            self._print_summary_table()
+            safe_print("="*60)
+
+    def _print_metrics_table(self, metrics: Dict[str, Any], epoch: float = None):
+        """打印单个评估结果的表格"""
+        title = f"\n{'Epoch '+str(epoch):^10}" if epoch is not None else "\n评估结果"
+        safe_print(title)
+        safe_print("-" * 40)
+        safe_print(f"{'指标':^10} | {'值':^20}")
+        safe_print("-" * 40)
+
+        # HuggingFace Trainer 传递的 metrics 字典使用 eval_ 前缀
+        metric_mapping = {
+            'eval_accuracy': '准确性',
+            'eval_f1': 'F1分数',
+            'eval_precision': '精确率',
+            'eval_recall': '召回率'
+        }
+
+        for eval_key, cn_name in metric_mapping.items():
+            # 尝试两种键名：with eval_ prefix 和 without
+            value = metrics.get(eval_key, 0)
+            if value == 0 and not eval_key.startswith('eval_'):
+                # 兼容旧版本，尝试不带前缀的键名
+                value = metrics.get(eval_key, 0)
+            safe_print(f"{cn_name:^10} | {value:^20.4f}")
+        safe_print("-" * 40)
+
+    def _print_summary_table(self):
+        """打印所有评估结果的汇总表格"""
+        if not self.all_eval_results:
+            return
+
+        # HuggingFace Trainer 传递的 metrics 字典使用 eval_ 前缀
+        metric_mapping = {
+            'eval_accuracy': '准确性',
+            'eval_f1': 'F1分数',
+            'eval_precision': '精确率',
+            'eval_recall': '召回率'
+        }
+
+        # 添加 epoch 列
+        header = "Epoch "
+        for cn_name in metric_mapping.values():
+            header += f"{cn_name:>12}"
+        safe_print(header)
+        safe_print("-" * len(header))
+
+        for result in self.all_eval_results:
+            epoch_str = f"{result['epoch']:>10.1f} "
+            for eval_key in metric_mapping.keys():
+                # 尝试从 metrics 中获取值
+                value = result['metrics'].get(eval_key, 0)
+                if value == 0:
+                    # 兼容旧版本，尝试不带前缀的键名
+                    key_without_prefix = eval_key.replace('eval_', '')
+                    value = result['metrics'].get(key_without_prefix, 0)
+                epoch_str += f"{value:>12.4f}"
+            safe_print(epoch_str)
 
 def train_skill_extraction_model(
         train_texts: List[List[str]],
         train_labels: List[List[str]],
         val_texts: List[List[str]],
         val_labels: List[List[str]],
-        model_name: str = "bert-base-chinese",  # 这里现在直接是本地路径
+        model_name: str = "bert-base-chinese", # 这里现在直接是本地路径
         output_dir: str = "./models/skill_extraction_model",
-        num_epochs: int = 3,
-        batch_size: int = 16
+        num_epochs: int = 15, # 增加训练轮数
+        batch_size: int = 16,
+        learning_rate: float = 2e-5, # 优化学习率
+        warmup_ratio: float = 0.1, # 使用比例而非固定步数
+        weight_decay: float = 0.01, # 增加正则化
+        gradient_accumulation_steps: int = 1, # 梯度累积
+        fp16: bool = False,
+        max_grad_norm: float = 1.0 # 梯度裁剪
 ):
-    """训练技能提取模型（支持离线模式）"""
+    """
+    训练技能提取模型（完全优化版）
+
+    改进点：
+    1. 自适应 warmup（基于数据量）
+    2. 学习率优化（2e-5 更适合中文BERT）
+    3. 增加 epochs（15轮充分训练）
+    4. 添加权重衰减防止过拟合
+    5. 梯度裁剪防止梯度爆炸
+    6. 混合精度训练支持
+    7. 更好的评估指标（F1优先）
+    """
 
     from .cross_platform_utils import ensure_directory_exists
 
@@ -163,7 +273,7 @@ def train_skill_extraction_model(
 
     # 创建配置，确保使用中文BERT的正确配置
     config = BertConfig(
-        vocab_size=21128,  # 中文BERT的词表大小
+        vocab_size=21128, # 中文BERT的词表大小
         num_labels=3,
         id2label={0: 'O', 1: 'B-SKILL', 2: 'I-SKILL'},
         label2id={'O': 0, 'B-SKILL': 1, 'I-SKILL': 2}
@@ -195,46 +305,64 @@ def train_skill_extraction_model(
     # 数据整理器
     data_collator = DataCollatorForTokenClassification(tokenizer)
 
-    # 训练参数
+    # 计算总训练步数和 warmup 步数（自适应）
+    num_training_steps = len(train_dataset) * num_epochs // batch_size // gradient_accumulation_steps
+    warmup_steps = int(num_training_steps * warmup_ratio)
+
+    safe_print(f"总训练步数: {num_training_steps}")
+    safe_print(f"Warmup 步数: {warmup_steps} ({warmup_ratio*100:.0f}%)")
+
+    # 训练参数（完全优化版）
     # 根据不同版本的transformers库使用兼容的参数名
     try:
-        # 尝试使用新版本的参数名
+        # 新版本参数（优化后）
         training_args = TrainingArguments(
             output_dir=output_dir,
             num_train_epochs=num_epochs,
             per_device_train_batch_size=batch_size,
             per_device_eval_batch_size=batch_size,
-            warmup_steps=500,
-            weight_decay=0.01,
+            learning_rate=learning_rate,
+            warmup_steps=warmup_steps,
+            weight_decay=weight_decay,
+            gradient_accumulation_steps=gradient_accumulation_steps,
+            fp16=fp16,
+            max_grad_norm=max_grad_norm,
             logging_dir=f"{output_dir}/logs",
-            eval_strategy="epoch",  # 新版本使用 eval_strategy
+            eval_strategy="epoch", # 新版本使用 eval_strategy
             save_strategy="epoch",
             load_best_model_at_end=True,
-            metric_for_best_model="f1",
+            metric_for_best_model="eval_f1",
             greater_is_better=True,
-            save_total_limit=2,
-            logging_steps=100,
-            report_to="none"  # 禁用wandb等日志
+            save_total_limit=3, # 保留更多checkpoint
+            logging_steps=50, # 更频繁的日志
+            seed=42, # 固定随机种子
+            dataloader_pin_memory=False, # 优化内存使用
+            report_to="none", # 禁用wandb等日志
         )
     except TypeError:
-        # 如果失败，使用旧版本的参数名
+        # 旧版本参数（兼容）
         safe_print("使用旧版本的evaluation_strategy参数...")
         training_args = TrainingArguments(
             output_dir=output_dir,
             num_train_epochs=num_epochs,
             per_device_train_batch_size=batch_size,
             per_device_eval_batch_size=batch_size,
-            warmup_steps=500,
-            weight_decay=0.01,
+            learning_rate=learning_rate,
+            warmup_steps=warmup_steps,
+            weight_decay=weight_decay,
+            gradient_accumulation_steps=gradient_accumulation_steps,
+            fp16=fp16,
+            max_grad_norm=max_grad_norm,
             logging_dir=f"{output_dir}/logs",
-            evaluation_strategy="epoch",  # 旧版本使用 evaluation_strategy
+            evaluation_strategy="epoch",
             save_strategy="epoch",
             load_best_model_at_end=True,
-            metric_for_best_model="f1",
+            metric_for_best_model="eval_f1",
             greater_is_better=True,
-            save_total_limit=2,
-            logging_steps=100,
-            report_to="none"  # 禁用wandb等日志
+            save_total_limit=3,
+            logging_steps=50,
+            seed=42,
+            report_to="none",
         )
 
     # 创建trainer
@@ -245,6 +373,7 @@ def train_skill_extraction_model(
         eval_dataset=val_dataset,
         data_collator=data_collator,
         compute_metrics=compute_metrics,
+        callbacks=[MetricsDisplayCallback()] # 添加自定义回调以表格形式显示指标
     )
 
     # 开始训练

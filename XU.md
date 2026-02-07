@@ -138,9 +138,9 @@ python train_offline.py --batch_size 64 --epochs 10 --synthetic_samples 5000
 
 | GPU 显存 | 推荐 batch_size | 说明 |
 |---------|----------------|------|
-| 8GB     | 16-24          | 适合入门级显卡 |
-| 12GB    | 24-32          | 适合中端显卡 |
-| 16GB+   | 32-64          | 适合高端显卡 |
+| 8GB | 16-24 | 适合入门级显卡 |
+| 12GB | 24-32 | 适合中端显卡 |
+| 16GB+ | 32-64 | 适合高端显卡 |
 
 ## 📝 不需要修改的其他配置
 
@@ -158,7 +158,7 @@ python train_offline.py --batch_size 64 --epochs 10 --synthetic_samples 5000
 training_args = TrainingArguments(
     output_dir=output_dir,
     num_train_epochs=num_epochs,
-    per_device_train_batch_size=batch_size,  # 每个 GPU 设备的批次大小
+    per_device_train_batch_size=batch_size, # 每个 GPU 设备的批次大小
     per_device_eval_batch_size=batch_size,
     # ... 其他参数
 )
