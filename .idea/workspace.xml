@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b73ab549-cef7-4386-becf-19fe1b62dccd" name="更改" comment="feat(training): 优化模型训练配置和设备选择&#10;&#10;- 移除训练模式强制使用CPU的环境变量检查逻辑&#10;- 更新cross_platform_utils.py中的设备选择函数以自动选择CUDA/MPS/CPU&#10;- 为模型训练添加动态时间戳输出目录&#10;- 在data_preprocessing.py中添加详细的模块功能注释&#10;- 优化model_training.py中的模型加载逻辑使用BertForTokenClassification&#10;- 更新resume_parser.py和tokenizer.py中的模块功能注释&#10;- 创建dd.md文档记录从CPU训练切换到NVIDIA显卡训练的配置指南&#10;- 添加downloadModel.py脚本用于从镜像站下载BERT模型&#10;- 修改IDEA工作空间配置以反映最新的代码变更">
-      <change afterPath="$PROJECT_DIR$/XU.md" afterDir="false" />
+    <list default="true" id="b73ab549-cef7-4386-becf-19fe1b62dccd" name="更改" comment="feat(data): 增强技能标注和训练数据生成功能&#10;&#10;- 支持带版本号的技能标注（如 Java 11, Vue 3）&#10;- 支持缩写技能标注（如 S3, EC2）&#10;- 智能识别技能边界并避免重复标注&#10;- 增强的合成数据生成，包含版本号和缩写技能&#10;- 优化训练参数配置，提高模型性能&#10;- 添加详细的评估指标表格显示功能&#10;- 增加训练轮数和自适应warmup策略">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dd.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data_preprocessing.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/data_preprocessing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model_training.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model_training.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tokenizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tokenizer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train_offline.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_offline.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,6 +38,7 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
     <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="openDirectoriesWithSingleClick" value="true" />
@@ -157,7 +155,15 @@
       <option name="project" value="LOCAL" />
       <updated>1770383701799</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="feat(data): 增强技能标注和训练数据生成功能&#10;&#10;- 支持带版本号的技能标注（如 Java 11, Vue 3）&#10;- 支持缩写技能标注（如 S3, EC2）&#10;- 智能识别技能边界并避免重复标注&#10;- 增强的合成数据生成，包含版本号和缩写技能&#10;- 优化训练参数配置，提高模型性能&#10;- 添加详细的评估指标表格显示功能&#10;- 增加训练轮数和自适应warmup策略">
+      <option name="closed" value="true" />
+      <created>1770478588055</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1770478588055</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -192,6 +198,7 @@
     <MESSAGE value="feat(inference): 优化简历技能提取核心功能&#10;&#10;- 实现基于BERT模型的中文技能提取器&#10;- 集成数据预处理模块支持合成数据生成&#10;- 添加跨平台文件处理和安全路径管理&#10;- 实现批量简历处理和结果导出功能&#10;- 优化代码结构支持模型推理和测试&#10;- 更新依赖配置移除不必要的包引用&#10;- 重构IDEA工作空间配置文件结构&#10;- 添加环境冲突修复和项目路径配置&#10;- 实现保底技能词典匹配机制提高召回率&#10;- 添加链式过滤与归一化处理流程&#10;- 新增测试简历数据文件用于验证功能" />
     <MESSAGE value="feat(config): 更新计算机技能配置文件&#10;&#10;- 添加人工智能与大模型相关技能分类&#10;- 增加移动开发、大数据、测试与质量、嵌入式与物联网新分类&#10;- 扩展编程语言列表，加入Dart、Objective-C等语言&#10;- 补充前端框架，增加SolidJS、Three.js等技术&#10;- 完善后端框架，添加Sanic、Tornado等框架&#10;- 扩展数据库选项，增加Milvus、Pinecone等向量数据库&#10;- 更新云平台与基础设施分类名称和内容&#10;- 增加DevOps工具如K8s、ArgoCD、Helm等&#10;- 扩展操作系统支持，添加Android、iOS&#10;- 更新技能标准化映射，增加多种别名&#10;- 优化IDEA工作空间配置文件结构&#10;- 添加环境冲突修复和项目路径配置&#10;- 实现保底技能词典匹配机制提高召回率&#10;- 添加链式过滤与归一化处理流程&#10;- 新增测试简历数据文件用于验证功能" />
     <MESSAGE value="feat(training): 优化模型训练配置和设备选择&#10;&#10;- 移除训练模式强制使用CPU的环境变量检查逻辑&#10;- 更新cross_platform_utils.py中的设备选择函数以自动选择CUDA/MPS/CPU&#10;- 为模型训练添加动态时间戳输出目录&#10;- 在data_preprocessing.py中添加详细的模块功能注释&#10;- 优化model_training.py中的模型加载逻辑使用BertForTokenClassification&#10;- 更新resume_parser.py和tokenizer.py中的模块功能注释&#10;- 创建dd.md文档记录从CPU训练切换到NVIDIA显卡训练的配置指南&#10;- 添加downloadModel.py脚本用于从镜像站下载BERT模型&#10;- 修改IDEA工作空间配置以反映最新的代码变更" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(training): 优化模型训练配置和设备选择&#10;&#10;- 移除训练模式强制使用CPU的环境变量检查逻辑&#10;- 更新cross_platform_utils.py中的设备选择函数以自动选择CUDA/MPS/CPU&#10;- 为模型训练添加动态时间戳输出目录&#10;- 在data_preprocessing.py中添加详细的模块功能注释&#10;- 优化model_training.py中的模型加载逻辑使用BertForTokenClassification&#10;- 更新resume_parser.py和tokenizer.py中的模块功能注释&#10;- 创建dd.md文档记录从CPU训练切换到NVIDIA显卡训练的配置指南&#10;- 添加downloadModel.py脚本用于从镜像站下载BERT模型&#10;- 修改IDEA工作空间配置以反映最新的代码变更" />
+    <MESSAGE value="feat(data): 增强技能标注和训练数据生成功能&#10;&#10;- 支持带版本号的技能标注（如 Java 11, Vue 3）&#10;- 支持缩写技能标注（如 S3, EC2）&#10;- 智能识别技能边界并避免重复标注&#10;- 增强的合成数据生成，包含版本号和缩写技能&#10;- 优化训练参数配置，提高模型性能&#10;- 添加详细的评估指标表格显示功能&#10;- 增加训练轮数和自适应warmup策略" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(data): 增强技能标注和训练数据生成功能&#10;&#10;- 支持带版本号的技能标注（如 Java 11, Vue 3）&#10;- 支持缩写技能标注（如 S3, EC2）&#10;- 智能识别技能边界并避免重复标注&#10;- 增强的合成数据生成，包含版本号和缩写技能&#10;- 优化训练参数配置，提高模型性能&#10;- 添加详细的评估指标表格显示功能&#10;- 增加训练轮数和自适应warmup策略" />
   </component>
 </project>
