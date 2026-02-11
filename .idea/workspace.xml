@@ -4,18 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b73ab549-cef7-4386-becf-19fe1b62dccd" name="更改" comment="refactor(training): 优化模型训练和测试代码结构&#10;&#10;- 移除源文件中的冗余注释和文档字符串&#10;- 简化技能提取数据集的标签处理逻辑&#10;- 优化评估指标计算方法，直接使用扁平化数据&#10;- 移除回调类中的冗余方法注释&#10;- 更新训练参数配置，启用GPU混合精度训练&#10;- 修改测试脚本使用原生BERT模型推理替代封装类&#10;- 添加环境变量修复解决库冲突问题&#10;- 优化IDEA工作空间配置文件结构">
-      <change afterPath="$PROJECT_DIR$/models/skill_extraction_model_20260208_1226/best_model/tokenizer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/skill_extraction_model_20260208_1226/best_model/tokenizer_config.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/skill_extraction_model_20260208_1226/best_model/vocab.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/TagSee.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TagSee.iml" afterDir="false" />
+    <list default="true" id="b73ab549-cef7-4386-becf-19fe1b62dccd" name="更改" comment="refactor(data): 重构数据预处理和模型训练模块&#10;&#10;- 重构 DataPreprocessor 类，简化数据预处理逻辑&#10;- 添加技能版本号绑定配置到 computer_skills.py&#10;- 简化模型训练代码，移除冗余的评估指标计算&#10;- 更新数据集处理方式，优化训练数据生成&#10;- 移除过复杂的 BIO 标注逻辑，采用更简洁的实现&#10;- 统一编码格式为 UTF-8">
+      <change afterPath="$PROJECT_DIR$/data/raw_resumes/resume1.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/raw_resumes/resume2.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/raw_resumes/resume3.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/generate_dataset.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resume_to_ner.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/train_model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/computer_skills.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/computer_skills.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/data_preprocessing.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/data_preprocessing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model_training.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model_training.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tokenizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tokenizer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train_offline.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_offline.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,16 +48,16 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.data_preprocessing.executor&quot;: &quot;Run&quot;,
-    &quot;Python.inference.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;masterGemini__gpt&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/LJY/PycharmProjects/TagSee/models/skill_extraction_model_20260208_1226/best_model&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.data_preprocessing.executor": "Run",
+    "Python.inference.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "masterGemini__gpt",
+    "last_opened_file_path": "C:/Users/LJY/PycharmProjects/TagSee/data",
+    "settings.editor.selected.configurable": "preferences.keymap"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\LJY\PycharmProjects\TagSee\models\skill_extraction_model_20260208_1226\best_model" />
@@ -68,6 +65,7 @@
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\LJY\PycharmProjects\TagSee" />
+      <recent name="C:\Users\LJY\PycharmProjects\TagSee\data\raw_resumes" />
       <recent name="C:\Users\LJY\PycharmProjects\TagSee\config" />
     </key>
   </component>
@@ -203,7 +201,15 @@
       <option name="project" value="LOCAL" />
       <updated>1770523100882</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="refactor(data): 重构数据预处理和模型训练模块&#10;&#10;- 重构 DataPreprocessor 类，简化数据预处理逻辑&#10;- 添加技能版本号绑定配置到 computer_skills.py&#10;- 简化模型训练代码，移除冗余的评估指标计算&#10;- 更新数据集处理方式，优化训练数据生成&#10;- 移除过复杂的 BIO 标注逻辑，采用更简洁的实现&#10;- 统一编码格式为 UTF-8">
+      <option name="closed" value="true" />
+      <created>1770826231164</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1770826231164</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -240,6 +246,7 @@
     <MESSAGE value="feat(training): 优化模型训练配置和设备选择&#10;&#10;- 移除训练模式强制使用CPU的环境变量检查逻辑&#10;- 更新cross_platform_utils.py中的设备选择函数以自动选择CUDA/MPS/CPU&#10;- 为模型训练添加动态时间戳输出目录&#10;- 在data_preprocessing.py中添加详细的模块功能注释&#10;- 优化model_training.py中的模型加载逻辑使用BertForTokenClassification&#10;- 更新resume_parser.py和tokenizer.py中的模块功能注释&#10;- 创建dd.md文档记录从CPU训练切换到NVIDIA显卡训练的配置指南&#10;- 添加downloadModel.py脚本用于从镜像站下载BERT模型&#10;- 修改IDEA工作空间配置以反映最新的代码变更" />
     <MESSAGE value="feat(data): 增强技能标注和训练数据生成功能&#10;&#10;- 支持带版本号的技能标注（如 Java 11, Vue 3）&#10;- 支持缩写技能标注（如 S3, EC2）&#10;- 智能识别技能边界并避免重复标注&#10;- 增强的合成数据生成，包含版本号和缩写技能&#10;- 优化训练参数配置，提高模型性能&#10;- 添加详细的评估指标表格显示功能&#10;- 增加训练轮数和自适应warmup策略" />
     <MESSAGE value="refactor(training): 优化模型训练和测试代码结构&#10;&#10;- 移除源文件中的冗余注释和文档字符串&#10;- 简化技能提取数据集的标签处理逻辑&#10;- 优化评估指标计算方法，直接使用扁平化数据&#10;- 移除回调类中的冗余方法注释&#10;- 更新训练参数配置，启用GPU混合精度训练&#10;- 修改测试脚本使用原生BERT模型推理替代封装类&#10;- 添加环境变量修复解决库冲突问题&#10;- 优化IDEA工作空间配置文件结构" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor(training): 优化模型训练和测试代码结构&#10;&#10;- 移除源文件中的冗余注释和文档字符串&#10;- 简化技能提取数据集的标签处理逻辑&#10;- 优化评估指标计算方法，直接使用扁平化数据&#10;- 移除回调类中的冗余方法注释&#10;- 更新训练参数配置，启用GPU混合精度训练&#10;- 修改测试脚本使用原生BERT模型推理替代封装类&#10;- 添加环境变量修复解决库冲突问题&#10;- 优化IDEA工作空间配置文件结构" />
+    <MESSAGE value="refactor(data): 重构数据预处理和模型训练模块&#10;&#10;- 重构 DataPreprocessor 类，简化数据预处理逻辑&#10;- 添加技能版本号绑定配置到 computer_skills.py&#10;- 简化模型训练代码，移除冗余的评估指标计算&#10;- 更新数据集处理方式，优化训练数据生成&#10;- 移除过复杂的 BIO 标注逻辑，采用更简洁的实现&#10;- 统一编码格式为 UTF-8" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor(data): 重构数据预处理和模型训练模块&#10;&#10;- 重构 DataPreprocessor 类，简化数据预处理逻辑&#10;- 添加技能版本号绑定配置到 computer_skills.py&#10;- 简化模型训练代码，移除冗余的评估指标计算&#10;- 更新数据集处理方式，优化训练数据生成&#10;- 移除过复杂的 BIO 标注逻辑，采用更简洁的实现&#10;- 统一编码格式为 UTF-8" />
   </component>
 </project>
