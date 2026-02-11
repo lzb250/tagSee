@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b73ab549-cef7-4386-becf-19fe1b62dccd" name="更改" comment="feat(data): 增强技能标注和训练数据生成功能&#10;&#10;- 支持带版本号的技能标注（如 Java 11, Vue 3）&#10;- 支持缩写技能标注（如 S3, EC2）&#10;- 智能识别技能边界并避免重复标注&#10;- 增强的合成数据生成，包含版本号和缩写技能&#10;- 优化训练参数配置，提高模型性能&#10;- 添加详细的评估指标表格显示功能&#10;- 增加训练轮数和自适应warmup策略">
+    <list default="true" id="b73ab549-cef7-4386-becf-19fe1b62dccd" name="更改" comment="refactor(training): 优化模型训练和测试代码结构&#10;&#10;- 移除源文件中的冗余注释和文档字符串&#10;- 简化技能提取数据集的标签处理逻辑&#10;- 优化评估指标计算方法，直接使用扁平化数据&#10;- 移除回调类中的冗余方法注释&#10;- 更新训练参数配置，启用GPU混合精度训练&#10;- 修改测试脚本使用原生BERT模型推理替代封装类&#10;- 添加环境变量修复解决库冲突问题&#10;- 优化IDEA工作空间配置文件结构">
+      <change afterPath="$PROJECT_DIR$/models/skill_extraction_model_20260208_1226/best_model/tokenizer.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/skill_extraction_model_20260208_1226/best_model/tokenizer_config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/skill_extraction_model_20260208_1226/best_model/vocab.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/TagSee.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TagSee.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/computer_skills.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/computer_skills.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data_preprocessing.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/data_preprocessing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model_training.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model_training.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tokenizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tokenizer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train_offline.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_offline.py" afterDir="false" />
     </list>
@@ -25,7 +32,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="masterGemini" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -46,15 +53,17 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Python.data_preprocessing.executor&quot;: &quot;Run&quot;,
     &quot;Python.inference.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;masterGemini&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/LJY/PycharmProjects/TagSee/data&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;masterGemini__gpt&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/LJY/PycharmProjects/TagSee/models/skill_extraction_model_20260208_1226/best_model&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\LJY\PycharmProjects\TagSee\models\skill_extraction_model_20260208_1226\best_model" />
       <recent name="C:\Users\LJY\PycharmProjects\TagSee\data" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -62,7 +71,29 @@
       <recent name="C:\Users\LJY\PycharmProjects\TagSee\config" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.data_preprocessing">
+    <configuration name="data_preprocessing" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="TagSee" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/data_preprocessing.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="inference" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="TagSee" />
       <option name="ENV_FILES" value="" />
@@ -87,6 +118,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.data_preprocessing" />
         <item itemvalue="Python.inference" />
       </list>
     </recent_temporary>
@@ -163,7 +195,15 @@
       <option name="project" value="LOCAL" />
       <updated>1770478588055</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="refactor(training): 优化模型训练和测试代码结构&#10;&#10;- 移除源文件中的冗余注释和文档字符串&#10;- 简化技能提取数据集的标签处理逻辑&#10;- 优化评估指标计算方法，直接使用扁平化数据&#10;- 移除回调类中的冗余方法注释&#10;- 更新训练参数配置，启用GPU混合精度训练&#10;- 修改测试脚本使用原生BERT模型推理替代封装类&#10;- 添加环境变量修复解决库冲突问题&#10;- 优化IDEA工作空间配置文件结构">
+      <option name="closed" value="true" />
+      <created>1770523100882</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1770523100882</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -177,7 +217,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="masterGemini" />
+                        <option value="HEAD" />
                       </list>
                     </value>
                   </entry>
@@ -199,6 +239,7 @@
     <MESSAGE value="feat(config): 更新计算机技能配置文件&#10;&#10;- 添加人工智能与大模型相关技能分类&#10;- 增加移动开发、大数据、测试与质量、嵌入式与物联网新分类&#10;- 扩展编程语言列表，加入Dart、Objective-C等语言&#10;- 补充前端框架，增加SolidJS、Three.js等技术&#10;- 完善后端框架，添加Sanic、Tornado等框架&#10;- 扩展数据库选项，增加Milvus、Pinecone等向量数据库&#10;- 更新云平台与基础设施分类名称和内容&#10;- 增加DevOps工具如K8s、ArgoCD、Helm等&#10;- 扩展操作系统支持，添加Android、iOS&#10;- 更新技能标准化映射，增加多种别名&#10;- 优化IDEA工作空间配置文件结构&#10;- 添加环境冲突修复和项目路径配置&#10;- 实现保底技能词典匹配机制提高召回率&#10;- 添加链式过滤与归一化处理流程&#10;- 新增测试简历数据文件用于验证功能" />
     <MESSAGE value="feat(training): 优化模型训练配置和设备选择&#10;&#10;- 移除训练模式强制使用CPU的环境变量检查逻辑&#10;- 更新cross_platform_utils.py中的设备选择函数以自动选择CUDA/MPS/CPU&#10;- 为模型训练添加动态时间戳输出目录&#10;- 在data_preprocessing.py中添加详细的模块功能注释&#10;- 优化model_training.py中的模型加载逻辑使用BertForTokenClassification&#10;- 更新resume_parser.py和tokenizer.py中的模块功能注释&#10;- 创建dd.md文档记录从CPU训练切换到NVIDIA显卡训练的配置指南&#10;- 添加downloadModel.py脚本用于从镜像站下载BERT模型&#10;- 修改IDEA工作空间配置以反映最新的代码变更" />
     <MESSAGE value="feat(data): 增强技能标注和训练数据生成功能&#10;&#10;- 支持带版本号的技能标注（如 Java 11, Vue 3）&#10;- 支持缩写技能标注（如 S3, EC2）&#10;- 智能识别技能边界并避免重复标注&#10;- 增强的合成数据生成，包含版本号和缩写技能&#10;- 优化训练参数配置，提高模型性能&#10;- 添加详细的评估指标表格显示功能&#10;- 增加训练轮数和自适应warmup策略" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(data): 增强技能标注和训练数据生成功能&#10;&#10;- 支持带版本号的技能标注（如 Java 11, Vue 3）&#10;- 支持缩写技能标注（如 S3, EC2）&#10;- 智能识别技能边界并避免重复标注&#10;- 增强的合成数据生成，包含版本号和缩写技能&#10;- 优化训练参数配置，提高模型性能&#10;- 添加详细的评估指标表格显示功能&#10;- 增加训练轮数和自适应warmup策略" />
+    <MESSAGE value="refactor(training): 优化模型训练和测试代码结构&#10;&#10;- 移除源文件中的冗余注释和文档字符串&#10;- 简化技能提取数据集的标签处理逻辑&#10;- 优化评估指标计算方法，直接使用扁平化数据&#10;- 移除回调类中的冗余方法注释&#10;- 更新训练参数配置，启用GPU混合精度训练&#10;- 修改测试脚本使用原生BERT模型推理替代封装类&#10;- 添加环境变量修复解决库冲突问题&#10;- 优化IDEA工作空间配置文件结构" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor(training): 优化模型训练和测试代码结构&#10;&#10;- 移除源文件中的冗余注释和文档字符串&#10;- 简化技能提取数据集的标签处理逻辑&#10;- 优化评估指标计算方法，直接使用扁平化数据&#10;- 移除回调类中的冗余方法注释&#10;- 更新训练参数配置，启用GPU混合精度训练&#10;- 修改测试脚本使用原生BERT模型推理替代封装类&#10;- 添加环境变量修复解决库冲突问题&#10;- 优化IDEA工作空间配置文件结构" />
   </component>
 </project>
