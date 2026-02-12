@@ -29,7 +29,7 @@ class NERDataset(Dataset):
             padding="max_length",
             max_length=self.max_length,
             return_attention_mask=True,
-            return_offsets_mapping=True,
+            return_offsets_mapping=True
         )
 
         input_ids = tokenized["input_ids"]
