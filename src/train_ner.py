@@ -7,13 +7,11 @@ import pandas as pd
 
 MODEL_PATH = "models/bert-base-chinese"  # 本地BERT路径
 
-# ===========================
-# 数据集类
-# ===========================
 class NERDataset(Dataset):
-    def __init__(self, csv_file, tokenizer):
+    def __init__(self, csv_file, tokenizer, max_length=256):
         self.df = pd.read_csv(csv_file)
         self.tokenizer = tokenizer
+        self.max_length = max_length
         self.labels_list = ["O", "B-SKILL", "I-SKILL"]
 
     def __len__(self):
@@ -22,15 +20,32 @@ class NERDataset(Dataset):
     def __getitem__(self, idx):
         text = str(self.df.iloc[idx]["text"])
         labels_str = str(self.df.iloc[idx]["labels"]).split()
-        encodings = self.tokenizer(text, truncation=True, padding="max_length", max_length=256, return_offsets_mapping=True)
-        # 对齐标签
-        labels = [0] * len(encodings["input_ids"])
-        offset_mapping = encodings["offset_mapping"]
-        for i, (start, end) in enumerate(offset_mapping):
-            if start == 0 and end != 0:
-                labels[i] = self.labels_list.index(labels_str[start])
-        encodings["labels"] = labels
-        return {k: torch.tensor(v) for k, v in encodings.items()}
+
+        # 字符级 BIO
+        tokenized = self.tokenizer(
+            text,
+            truncation=True,
+            padding="max_length",
+            max_length=self.max_length,
+            return_attention_mask=True
+            # 不返回 offset_mapping
+        )
+
+        input_ids = tokenized["input_ids"]
+        attention_mask = tokenized["attention_mask"]
+
+        # 对齐 labels 到 token
+        labels = [0] * self.max_length
+        for i, char_idx in enumerate(range(min(len(labels_str), self.max_length))):
+            char_label = labels_str[char_idx]
+            labels[i] = self.labels_list.index(char_label)
+
+        return {
+            "input_ids": torch.tensor(input_ids),
+            "attention_mask": torch.tensor(attention_mask),
+            "labels": torch.tensor(labels)
+        }
+
 
 # ===========================
 # 训练函数

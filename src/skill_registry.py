@@ -72,7 +72,6 @@ class SkillRegistry:
         """
         输入任意技能文本，返回标准技能名
         """
-
         skill_text = skill_text.strip().lower()
 
         # 1️⃣ 直接匹配标准名
@@ -96,9 +95,7 @@ class SkillRegistry:
         """
         从文本中提取所有技能
         """
-
         found_skills = set()
-
         text_lower = text.lower()
 
         # 先匹配版本（防止被标准名覆盖）
@@ -123,7 +120,6 @@ class SkillRegistry:
     # =========================
     def extract_with_category(self, text):
         skills = self.extract_from_text(text)
-
         result = []
         for skill in skills:
             category = self.standard_index[skill.lower()]["category"]
@@ -131,7 +127,6 @@ class SkillRegistry:
                 "skill": skill,
                 "category": category
             })
-
         return result
 
     # =========================
@@ -139,11 +134,21 @@ class SkillRegistry:
     # =========================
     def category_statistics(self, skills):
         stats = defaultdict(int)
-
         for skill in skills:
             normalized = self.normalize(skill)
             if normalized:
                 category = self.standard_index[normalized.lower()]["category"]
                 stats[category] += 1
-
         return dict(stats)
+
+    # =========================
+    # 企业级接口：单技能获取分类
+    # =========================
+    def get_category(self, skill_text):
+        if not skill_text:
+            return None
+        normalized = self.normalize(skill_text)
+        if normalized:
+            return self.standard_index[normalized.lower()]["category"]
+        return None
+

@@ -10,7 +10,7 @@ def main():
 
     generator = IndustrialResumeGenerator(registry)
 
-    df = generator.generate_dataset(num_samples=500)
+    df = generator.generate_dataset(num_samples=5000)
 
     generator.save_to_csv(df, "data/generated_resumes.csv")
 
