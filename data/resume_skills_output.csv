@@ -52,7 +52,7 @@ resume1.txt,"张三
 • PMP项目管理专业人士认证
 
 自我评价
-热爱技术，持续学习新技术，关注前沿技术发展。具备良好的团队协作能力和沟通能力，能够快速适应新环境。对代码质量有严格要求，注重软件工程最佳实践。",,
+热爱技术，持续学习新技术，关注前沿技术发展。具备良好的团队协作能力和沟通能力，能够快速适应新环境。对代码质量有严格要求，注重软件工程最佳实践。","Kubernetes, MySQL, Spring, Flask, Go, Django, JavaScript, TypeScript, Redis, Vue, MongoDB, Next.js, Java, Azure, 阿里云, Python, Jenkins, Docker, Elasticsearch, PostgreSQL, React, AWS","Kubernetes:DevOps工具, MySQL:数据库, Spring:后端框架, Flask:后端框架, Go:编程语言, Django:后端框架, JavaScript:编程语言, TypeScript:编程语言, Redis:数据库, Vue:前端框架, MongoDB:数据库, Next.js:前端框架, Java:编程语言, Azure:云平台与基础设施, 阿里云:云平台与基础设施, Python:编程语言, Jenkins:DevOps工具, Docker:DevOps工具, Elasticsearch:数据库, PostgreSQL:数据库, React:前端框架, AWS:云平台与基础设施"
 resume2.txt,"姓名：王五
 教育背景：复旦大学信息管理与信息系统专业，本科
 工作经验：6年
@@ -64,7 +64,7 @@ resume2.txt,"姓名：王五
 - DevOps 工具：Ansible、Terraform、Prometheus
 项目经验：
 - AI 推荐系统：使用 Python + PyTorch 构建深度学习推荐模型
-- 大数据日志分析平台：Elasticsearch + ClickHouse 实现日志查询与分析",,
+- 大数据日志分析平台：Elasticsearch + ClickHouse 实现日志查询与分析","Ansible, ClickHouse, Scikit-learn, 机器学习, MATLAB, Prometheus, PyTorch, Terraform, R, InfluxDB, Azure, TensorFlow, Python, Elasticsearch, AWS","Ansible:DevOps工具, ClickHouse:数据库, Scikit-learn:人工智能与大模型, 机器学习:人工智能与大模型, MATLAB:编程语言, Prometheus:DevOps工具, PyTorch:人工智能与大模型, Terraform:DevOps工具, R:编程语言, InfluxDB:数据库, Azure:云平台与基础设施, TensorFlow:人工智能与大模型, Python:编程语言, Elasticsearch:数据库, AWS:云平台与基础设施"
 resume3.txt,"姓名：李四
 教育背景：北京大学软件工程专业，本科
 工作经验：3年
@@ -77,4 +77,4 @@ resume3.txt,"姓名：李四
 - DevOps：Git、Docker、CircleCI
 项目经验：
 - 移动社交应用开发：使用 Vue + Go 实现高性能后端服务
-- 金融数据处理：使用 Spring Boot + Redis 构建实时数据服务",,
+- 金融数据处理：使用 Spring Boot + Redis 构建实时数据服务","Spring, Go, 华为云, JavaScript, Git, TypeScript, Redis, MongoDB, Vue, Express, Bootstrap, SQLite, Docker, CircleCI, Angular","Spring:后端框架, Go:编程语言, 华为云:云平台与基础设施, JavaScript:编程语言, Git:版本控制, TypeScript:编程语言, Redis:数据库, MongoDB:数据库, Vue:前端框架, Express:后端框架, Bootstrap:前端框架, SQLite:数据库, Docker:DevOps工具, CircleCI:DevOps工具, Angular:前端框架"

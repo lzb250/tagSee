@@ -5,7 +5,7 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 import torch
 from transformers import BertTokenizerFast, BertForTokenClassification
 import pandas as pd
-from src.skill_registry import SkillRegistry
+from skill_registry import SkillRegistry
 
 
 
