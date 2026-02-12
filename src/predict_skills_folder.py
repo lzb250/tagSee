@@ -27,18 +27,34 @@ class SkillExtractor:
 
     def predict_text(self, text: str):
         tokens = self.tokenizer(
-            text, return_tensors="pt", truncation=True, padding="max_length", max_length=256
+            text,
+            return_tensors="pt",
+            truncation=True,
+            padding="max_length",
+            max_length=256,
+            return_offsets_mapping=True
         )
+        offsets = tokens.pop("offset_mapping").squeeze(0).tolist()
         tokens = {k: v.to(self.device) for k, v in tokens.items()}
 
         with torch.no_grad():
             outputs = self.model(**tokens)
-            predictions = torch.argmax(outputs.logits, dim=-1).squeeze().cpu().tolist()
+            predictions = torch.argmax(outputs.logits, dim=-1).squeeze(0).cpu().tolist()
 
-        labels = [LABELS_LIST[i] for i in predictions][:len(text)]
+        char_labels = ["O"] * len(text)
+        for pred, (start, end) in zip(predictions, offsets):
+            if start == end == 0:
+                continue
+            label = LABELS_LIST[pred]
+            if start < len(char_labels):
+                char_labels[start] = label
+            for i in range(start + 1, min(end, len(char_labels))):
+                if label in ("B-SKILL", "I-SKILL"):
+                    char_labels[i] = "I-SKILL"
+
         skills_found = set()
         current_skill = ""
-        for char, label in zip(text, labels):
+        for char, label in zip(text, char_labels):
             if label == "B-SKILL":
                 if current_skill:
                     skills_found.add(current_skill)

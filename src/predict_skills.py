@@ -27,18 +27,38 @@ class SkillExtractor:
         self.model.eval()
 
     def predict(self, text: str):
-        tokens = self.tokenizer(text, return_tensors="pt", truncation=True, padding="max_length", max_length=256)
+        tokens = self.tokenizer(
+            text,
+            return_tensors="pt",
+            truncation=True,
+            padding="max_length",
+            max_length=256,
+            return_offsets_mapping=True
+        )
+        offsets = tokens.pop("offset_mapping").squeeze(0).tolist()
         tokens = {k: v.to(self.device) for k, v in tokens.items()}
 
         with torch.no_grad():
             outputs = self.model(**tokens)
-            predictions = torch.argmax(outputs.logits, dim=-1).squeeze().cpu().tolist()
+            predictions = torch.argmax(outputs.logits, dim=-1).squeeze(0).cpu().tolist()
 
-        # 对齐标签到字符
-        labels = [LABELS_LIST[i] for i in predictions][:len(text)]
+        # 对齐标签到字符（按offset映射回原文本）
+        char_labels = ["O"] * len(text)
+        for pred, (start, end) in zip(predictions, offsets):
+            if start == end == 0:  # [CLS]/[SEP]/padding
+                continue
+            label = LABELS_LIST[pred]
+            if start < len(char_labels):
+                char_labels[start] = label
+            for i in range(start + 1, min(end, len(char_labels))):
+                if label == "B-SKILL":
+                    char_labels[i] = "I-SKILL"
+                elif label == "I-SKILL":
+                    char_labels[i] = "I-SKILL"
+
         skills_found = set()
         current_skill = ""
-        for char, label in zip(text, labels):
+        for char, label in zip(text, char_labels):
             if label == "B-SKILL":
                 if current_skill:
                     skills_found.add(current_skill)
@@ -53,7 +73,7 @@ class SkillExtractor:
             skills_found.add(current_skill)
 
         # 技能标准化
-        skills_normalized = [self.registry.normalize(skill) for skill in skills_found]
+        skills_normalized = [self.registry.normalize(skill) for skill in skills_found if self.registry.normalize(skill)]
 
         # 分类统计
         skill_categories = {}
