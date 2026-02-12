@@ -68,9 +68,18 @@ class SkillExtractor:
         if current_skill:
             skills_found.add(current_skill)
 
-        # 技能标准化 + 分类
-        skills_normalized = [self.registry.normalize(s) for s in skills_found if self.registry.normalize(s)]
-        skill_categories = {s: self.registry.get_category(s) for s in skills_normalized}
+        # 技能标准化（仅模型结果）
+        skills_normalized = sorted({
+            self.registry.normalize(skill)
+            for skill in skills_found
+            if self.registry.normalize(skill)
+        })
+
+        # 分类统计
+        skill_categories = {}
+        for skill in skills_normalized:
+            cat = self.registry.get_category(skill)
+            skill_categories[skill] = cat
 
         return skills_normalized, skill_categories
 

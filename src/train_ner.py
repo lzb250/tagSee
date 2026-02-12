@@ -1,5 +1,6 @@
 # src/train_ner.py
 
+import inspect
 import torch
 from transformers import BertTokenizerFast, BertForTokenClassification, Trainer, TrainingArguments
 from torch.utils.data import Dataset

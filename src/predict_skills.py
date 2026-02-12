@@ -2,11 +2,14 @@
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
-
 import torch
 from transformers import BertTokenizerFast, BertForTokenClassification
 import pandas as pd
-from src.skill_registry import SkillRegistry
+
+if __package__:
+    from .skill_registry import SkillRegistry
+else:
+    from skill_registry import SkillRegistry
 import re
 
 MODEL_PATH = "models/skill_extraction_model"

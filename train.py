@@ -34,14 +34,13 @@ def build_ner_dataset(
         text = str(row["resume_text"])
         labels = ["O"] * len(text)
 
-        # 遍历所有识别出的技能
-        for skill in registry.extract_from_text(text):
-            # 匹配文本中所有出现位置
-            for match in re.finditer(re.escape(skill), text, flags=re.IGNORECASE):
-                start, end = match.start(), match.end()
-                labels[start] = "B-SKILL"
-                for i in range(start + 1, end):
-                    labels[i] = "I-SKILL"
+        # 直接基于标准名/别名/版本打标，避免只匹配标准名导致漏标
+        for start, end in _collect_skill_spans(text, registry):
+            if not all(tag == "O" for tag in labels[start:end]):
+                continue
+            labels[start] = "B-SKILL"
+            for i in range(start + 1, end):
+                labels[i] = "I-SKILL"
 
         records.append({"text": text, "labels": " ".join(labels)})
 
