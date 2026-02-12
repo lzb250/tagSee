@@ -27,17 +27,27 @@ class NERDataset(Dataset):
             truncation=True,
             padding="max_length",
             max_length=self.max_length,
-            return_attention_mask=True
-            # 不返回 offset_mapping
+            return_attention_mask=True,
+            return_offsets_mapping=True
         )
 
         input_ids = tokenized["input_ids"]
         attention_mask = tokenized["attention_mask"]
+        offsets = tokenized["offset_mapping"]
 
-        # 对齐 labels 到 token
-        labels = [0] * self.max_length
-        for i, char_idx in enumerate(range(min(len(labels_str), self.max_length))):
-            char_label = labels_str[char_idx]
+        # 对齐 labels 到 token：
+        # - 特殊token和padding(label=-100)不参与loss
+        # - 每个token使用其起始字符位置对应的字符级标签
+        labels = [-100] * self.max_length
+        for i, (start, end) in enumerate(offsets):
+            if attention_mask[i] == 0:
+                continue
+            if start == end == 0:  # [CLS]/[SEP] 等特殊token
+                continue
+            if start >= len(labels_str):
+                labels[i] = self.labels_list.index("O")
+                continue
+            char_label = labels_str[start]
             labels[i] = self.labels_list.index(char_label)
 
         return {
