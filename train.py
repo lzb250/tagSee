@@ -10,35 +10,6 @@ from src.industrial_dataset_generator import IndustrialResumeGenerator
 from src.train_ner import train
 
 
-def _is_ascii_word_term(term: str) -> bool:
-    return bool(re.fullmatch(r"[A-Za-z0-9_#.+-]+", term))
-
-
-def _find_term_spans(text: str, term: str):
-    escaped = re.escape(term)
-    if _is_ascii_word_term(term):
-        pattern = rf"(?<![A-Za-z0-9_]){escaped}(?![A-Za-z0-9_])"
-    else:
-        pattern = escaped
-    return list(re.finditer(pattern, text, flags=re.IGNORECASE))
-
-
-def _collect_skill_spans(text: str, registry: SkillRegistry):
-    spans = []
-    for _, data in registry.standard_index.items():
-        terms = [data["standard_name"], *data.get("aliases", []), *data.get("versions", [])]
-        for term in terms:
-            term = str(term).strip()
-            if not term:
-                continue
-            for match in _find_term_spans(text, term):
-                spans.append((match.start(), match.end()))
-
-    # 长片段优先，避免短片段覆盖长技能名
-    spans.sort(key=lambda x: (x[1] - x[0], -x[0]), reverse=True)
-    return spans
-
-
 # ===========================
 # NER 数据构建器
 # ===========================

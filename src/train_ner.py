@@ -30,7 +30,7 @@ class NERDataset(Dataset):
             padding="max_length",
             max_length=self.max_length,
             return_attention_mask=True,
-            return_offsets_mapping=True,
+            return_offsets_mapping=True
         )
 
         input_ids = tokenized["input_ids"]
@@ -78,27 +78,19 @@ def train(
     dataset = NERDataset(ner_csv, tokenizer, max_length=max_length)
     model = BertForTokenClassification.from_pretrained(model_path, num_labels=3)
 
-    training_kwargs = {
-        "output_dir": output_dir,
-        "num_train_epochs": num_train_epochs,
-        "per_device_train_batch_size": per_device_train_batch_size,
-        "save_steps": save_steps,
-        "save_total_limit": save_total_limit,
-        "logging_steps": logging_steps,
-        "learning_rate": learning_rate,
-        "remove_unused_columns": False,
-        "push_to_hub": False,
-        "fp16": False,
-    }
-
-    # transformers 新版本推荐 eval_strategy，老版本仍是 evaluation_strategy
-    training_args_params = inspect.signature(TrainingArguments.__init__).parameters
-    if "eval_strategy" in training_args_params:
-        training_kwargs["eval_strategy"] = "no"
-    else:
-        training_kwargs["evaluation_strategy"] = "no"
-
-    training_args = TrainingArguments(**training_kwargs)
+    training_args = TrainingArguments(
+        output_dir=output_dir,
+        num_train_epochs=num_train_epochs,
+        per_device_train_batch_size=per_device_train_batch_size,
+        save_steps=save_steps,
+        save_total_limit=save_total_limit,
+        logging_steps=logging_steps,
+        learning_rate=learning_rate,
+        evaluation_strategy="no",
+        remove_unused_columns=False,
+        push_to_hub=False,
+        fp16=False,
+    )
 
     trainer = Trainer(
         model=model,
