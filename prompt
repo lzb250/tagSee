@@ -1,0 +1,45 @@
+背景信息 项目名称：TagSee / Resume Skill Extractor
+功能：从简历文本中提取技能标签（编程语言、框架、数据库、AI、大数据、云服务等）
+技术栈：
+# Resume Skill Extractor - Core Dependencies
+
+# Core ML Libraries
+torch>=2.0.0,<2.1.0
+transformers==4.41.2
+datasets==2.19.0
+tokenizers>=0.13.3,<0.15.0
+safetensors>=0.3.0
+
+# NLP and Text Processing
+jieba>=0.42.1
+spacy>=3.5.4
+
+# File Processing
+pdfplumber>=0.7.6
+python-docx>=0.8.11
+pypdfium2>=5.0.1
+
+# Data Science
+numpy>=1.24.4
+pandas>=1.5.3
+scikit-learn>=1.2.2
+scipy>=1.10.1
+
+# Utilities
+tqdm>=4.66.1
+packaging>=23.1
+requests>=2.31.0
+urllib3>=2.0.4
+
+
+任务指令 你是一个 Python 机器学习工程师，专注于简历技能提取 NER 模型。 根据下列需求，生成全部工程代码给我：
+
+使用自定义脚本生成基础的数据简历数据，然后将数据保存下来，如果是csv文件会更好，包括原始数据，实际简历技能等训练数据
+
+使用 BERT 中文模型 bert-base-chinese 模型已经下载到本地了 在/models/bert-base-chinese路径下
+
+测试 / 推理 从简历原文直接提取技能
+
+简历技能都是计算机行业相关的技能，这里我也希望用csv做保存，因为之后都可能灵活的与线上数据进行联动
+
+请你给我完整项目代码，并在每个代码文件第一行指明路径，类似# src/computer_resume_processor.py
