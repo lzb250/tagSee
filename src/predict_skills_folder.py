@@ -5,7 +5,11 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 import torch
 from transformers import BertTokenizerFast, BertForTokenClassification
 import pandas as pd
-from src.skill_registry import SkillRegistry
+
+if __package__:
+    from .skill_registry import SkillRegistry
+else:
+    from skill_registry import SkillRegistry
 
 
 
@@ -27,18 +31,34 @@ class SkillExtractor:
 
     def predict_text(self, text: str):
         tokens = self.tokenizer(
-            text, return_tensors="pt", truncation=True, padding="max_length", max_length=256
+            text,
+            return_tensors="pt",
+            truncation=True,
+            padding="max_length",
+            max_length=256,
+            return_offsets_mapping=True
         )
+        offsets = tokens.pop("offset_mapping").squeeze(0).tolist()
         tokens = {k: v.to(self.device) for k, v in tokens.items()}
 
         with torch.no_grad():
             outputs = self.model(**tokens)
-            predictions = torch.argmax(outputs.logits, dim=-1).squeeze().cpu().tolist()
+            predictions = torch.argmax(outputs.logits, dim=-1).squeeze(0).cpu().tolist()
 
-        labels = [LABELS_LIST[i] for i in predictions][:len(text)]
+        char_labels = ["O"] * len(text)
+        for pred, (start, end) in zip(predictions, offsets):
+            if start == end == 0:
+                continue
+            label = LABELS_LIST[pred]
+            if start < len(char_labels):
+                char_labels[start] = label
+            for i in range(start + 1, min(end, len(char_labels))):
+                if label in ("B-SKILL", "I-SKILL"):
+                    char_labels[i] = "I-SKILL"
+
         skills_found = set()
         current_skill = ""
-        for char, label in zip(text, labels):
+        for char, label in zip(text, char_labels):
             if label == "B-SKILL":
                 if current_skill:
                     skills_found.add(current_skill)
@@ -52,9 +72,18 @@ class SkillExtractor:
         if current_skill:
             skills_found.add(current_skill)
 
-        # 技能标准化 + 分类
-        skills_normalized = [self.registry.normalize(s) for s in skills_found if self.registry.normalize(s)]
-        skill_categories = {s: self.registry.get_category(s) for s in skills_normalized}
+        # 技能标准化（仅模型结果）
+        skills_normalized = sorted({
+            self.registry.normalize(skill)
+            for skill in skills_found
+            if self.registry.normalize(skill)
+        })
+
+        # 分类统计
+        skill_categories = {}
+        for skill in skills_normalized:
+            cat = self.registry.get_category(skill)
+            skill_categories[skill] = cat
 
         return skills_normalized, skill_categories
 
