@@ -26,62 +26,57 @@ class SkillExtractor:
         self.model.eval()
 
     def predict_text(self, text: str):
-        tokens = self.tokenizer(
-            text,
-            return_tensors="pt",
-            truncation=True,
-            padding="max_length",
-            max_length=256,
-            return_offsets_mapping=True
-        )
-        offsets = tokens.pop("offset_mapping").squeeze(0).tolist()
-        tokens = {k: v.to(self.device) for k, v in tokens.items()}
 
-        with torch.no_grad():
-            outputs = self.model(**tokens)
-            predictions = torch.argmax(outputs.logits, dim=-1).squeeze(0).cpu().tolist()
-
-        char_labels = ["O"] * len(text)
-        for pred, (start, end) in zip(predictions, offsets):
-            if start == end == 0:
-                continue
-            label = LABELS_LIST[pred]
-            if start < len(char_labels):
-                char_labels[start] = label
-            for i in range(start + 1, min(end, len(char_labels))):
-                if label in ("B-SKILL", "I-SKILL"):
-                    char_labels[i] = "I-SKILL"
+        max_length = 256
+        stride = 128   # 重叠窗口，防止截断技能
 
         skills_found = set()
-        current_skill = ""
-        for char, label in zip(text, char_labels):
-            if label == "B-SKILL":
-                if current_skill:
-                    skills_found.add(current_skill)
-                current_skill = char
-            elif label == "I-SKILL" and current_skill:
-                current_skill += char
-            else:
-                if current_skill:
-                    skills_found.add(current_skill)
-                    current_skill = ""
-        if current_skill:
-            skills_found.add(current_skill)
 
-        # 技能标准化（仅模型结果）
+        encoding = self.tokenizer(
+            text,
+            return_offsets_mapping=True,
+            return_tensors="pt",
+            truncation=False
+        )
+
+        input_ids = encoding["input_ids"][0]
+        offsets = encoding["offset_mapping"][0]
+
+        total_length = input_ids.size(0)
+
+        for start in range(0, total_length, max_length - stride):
+            end = min(start + max_length, total_length)
+
+            chunk_input_ids = input_ids[start:end].unsqueeze(0).to(self.device)
+            chunk_offsets = offsets[start:end]
+
+            with torch.no_grad():
+                outputs = self.model(input_ids=chunk_input_ids)
+                predictions = torch.argmax(outputs.logits, dim=-1)[0].cpu().tolist()
+
+            for pred, (s, e) in zip(predictions, chunk_offsets):
+                if s == e:
+                    continue
+                label = LABELS_LIST[pred]
+                if label in ("B-SKILL", "I-SKILL"):
+                    skill_text = text[s:e]
+                    skills_found.add(skill_text)
+
+        # 标准化
         skills_normalized = sorted({
             self.registry.normalize(skill)
             for skill in skills_found
             if self.registry.normalize(skill)
         })
 
-        # 分类统计
-        skill_categories = {}
-        for skill in skills_normalized:
-            cat = self.registry.get_category(skill)
-            skill_categories[skill] = cat
+        # 分类
+        skill_categories = {
+            skill: self.registry.get_category(skill)
+            for skill in skills_normalized
+        }
 
         return skills_normalized, skill_categories
+
 
 if __name__ == "__main__":
     extractor = SkillExtractor()

@@ -4,15 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b73ab549-cef7-4386-becf-19fe1b62dccd" name="更改" comment="refactor(data): 重构数据预处理和模型训练模块&#10;&#10;- 重构 DataPreprocessor 类，简化数据预处理逻辑&#10;- 添加技能版本号绑定配置到 computer_skills.py&#10;- 简化模型训练代码，移除冗余的评估指标计算&#10;- 更新数据集处理方式，优化训练数据生成&#10;- 移除过复杂的 BIO 标注逻辑，采用更简洁的实现&#10;- 统一编码格式为 UTF-8">
-      <change afterPath="$PROJECT_DIR$/data/raw_resumes/resume1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/raw_resumes/resume2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/raw_resumes/resume3.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/generate_dataset.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resume_to_ner.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/train_model.py" afterDir="false" />
+    <list default="true" id="b73ab549-cef7-4386-becf-19fe1b62dccd" name="更改" comment="refactor(predict_skills_folder): 更新技能注册表导入路径&#10;&#10;- 将 from src.skill_registry import SkillRegistry 修改为 from skill_registry import SkillRegistry&#10;- 修正了模块导入的相对路径引用">
+      <change afterPath="$PROJECT_DIR$/data/resumes_txt/6.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/resumes_txt/resume4.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/resumes_txt/resume5.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/generated_resumes.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/generated_resumes.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/ner_resume_dataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/ner_resume_dataset.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/resume_skills_output.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/resume_skills_output.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/predict_skills_folder.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/predict_skills_folder.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +29,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="masterGemini" />
+        <entry key="$PROJECT_DIR$" value="masterGemini_gpt" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -48,20 +48,21 @@
     <option name="openDirectoriesWithSingleClick" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.data_preprocessing.executor": "Run",
-    "Python.inference.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "masterGemini__gpt",
-    "last_opened_file_path": "C:/Users/LJY/PycharmProjects/TagSee/data",
-    "settings.editor.selected.configurable": "preferences.keymap"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.data_preprocessing.executor&quot;: &quot;Run&quot;,
+    &quot;Python.inference.executor&quot;: &quot;Run&quot;,
+    &quot;Python.predict_skills_folder.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;masterGemini__gpt__restart&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/LJY/PycharmProjects/TagSee/data&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\LJY\PycharmProjects\TagSee\models\skill_extraction_model_20260208_1226\best_model" />
       <recent name="C:\Users\LJY\PycharmProjects\TagSee\data" />
+      <recent name="C:\Users\LJY\PycharmProjects\TagSee\models\skill_extraction_model_20260208_1226\best_model" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\LJY\PycharmProjects\TagSee" />
@@ -209,7 +210,47 @@
       <option name="project" value="LOCAL" />
       <updated>1770826231164</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="feat(dataset): 重构简历数据集生成器并集成技能注册中心&#10;&#10;- 新增工业级简历生成器，支持技能扰动和噪声文本注入&#10;- 集成技能注册中心，实现技能标准化和别名识别功能&#10;- 添加技能CSV配置文件生成工具，统一技能管理&#10;- 重构数据集生成流程，支持命令行参数配置&#10;- 引入进度条显示，提升用户体验&#10;- 更新项目目录结构，分离配置和源码模块">
+      <option name="closed" value="true" />
+      <created>1770867765452</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1770867765452</updated>
+    </task>
+    <task id="LOCAL-00011" summary="refactor(dataset): 重构数据集生成和NER训练流程&#10;&#10;- 移除旧的dataset_generator.py文件&#10;- 将数据生成逻辑整合到IndustrialResumeGenerator类中&#10;- 更新NER数据构建器使用SkillRegistry进行技能提取&#10;- 修复正则表达式匹配和标签对齐问题&#10;- 添加完整的数据生成-NER构建-模型训练流水线&#10;- 优化训练参数配置和数据集处理逻辑">
+      <option name="closed" value="true" />
+      <created>1770876076106</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1770876076106</updated>
+    </task>
+    <task id="LOCAL-00012" summary="feat(generator): 扩展数据集生成并新增技能提取功能&#10;&#10;- 将数据集生成样本数从500增加到5000&#10;- 新增predict_skills.py实现NER技能提取功能&#10;- 新增predict_skills_folder.py实现批量简历技能提取&#10;- 删除过时的简历示例文件&#10;- 优化SkillRegistry类的分类统计方法&#10;- 重构训练数据集类以支持可变最大长度参数">
+      <option name="closed" value="true" />
+      <created>1770877804697</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1770877804697</updated>
+    </task>
+    <task id="LOCAL-00013" summary="feat(generator): 扩展数据集生成并新增技能提取功能&#10;&#10;- 将数据集生成样本数从500增加到5000&#10;- 新增predict_skills.py实现NER技能提取功能&#10;- 新增predict_skills_folder.py实现批量简历技能提取&#10;- 删除过时的简历示例文件&#10;- 优化SkillRegistry类的分类统计方法&#10;- 重构训练数据集类以支持可变最大长度参数">
+      <option name="closed" value="true" />
+      <created>1770877822419</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1770877822419</updated>
+    </task>
+    <task id="LOCAL-00014" summary="refactor(predict_skills_folder): 更新技能注册表导入路径&#10;&#10;- 将 from src.skill_registry import SkillRegistry 修改为 from skill_registry import SkillRegistry&#10;- 修正了模块导入的相对路径引用">
+      <option name="closed" value="true" />
+      <created>1770884330305</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1770884330305</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -223,7 +264,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="HEAD" />
+                        <option value="masterGemini_gpt_restart" />
                       </list>
                     </value>
                   </entry>
@@ -247,6 +288,10 @@
     <MESSAGE value="feat(data): 增强技能标注和训练数据生成功能&#10;&#10;- 支持带版本号的技能标注（如 Java 11, Vue 3）&#10;- 支持缩写技能标注（如 S3, EC2）&#10;- 智能识别技能边界并避免重复标注&#10;- 增强的合成数据生成，包含版本号和缩写技能&#10;- 优化训练参数配置，提高模型性能&#10;- 添加详细的评估指标表格显示功能&#10;- 增加训练轮数和自适应warmup策略" />
     <MESSAGE value="refactor(training): 优化模型训练和测试代码结构&#10;&#10;- 移除源文件中的冗余注释和文档字符串&#10;- 简化技能提取数据集的标签处理逻辑&#10;- 优化评估指标计算方法，直接使用扁平化数据&#10;- 移除回调类中的冗余方法注释&#10;- 更新训练参数配置，启用GPU混合精度训练&#10;- 修改测试脚本使用原生BERT模型推理替代封装类&#10;- 添加环境变量修复解决库冲突问题&#10;- 优化IDEA工作空间配置文件结构" />
     <MESSAGE value="refactor(data): 重构数据预处理和模型训练模块&#10;&#10;- 重构 DataPreprocessor 类，简化数据预处理逻辑&#10;- 添加技能版本号绑定配置到 computer_skills.py&#10;- 简化模型训练代码，移除冗余的评估指标计算&#10;- 更新数据集处理方式，优化训练数据生成&#10;- 移除过复杂的 BIO 标注逻辑，采用更简洁的实现&#10;- 统一编码格式为 UTF-8" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor(data): 重构数据预处理和模型训练模块&#10;&#10;- 重构 DataPreprocessor 类，简化数据预处理逻辑&#10;- 添加技能版本号绑定配置到 computer_skills.py&#10;- 简化模型训练代码，移除冗余的评估指标计算&#10;- 更新数据集处理方式，优化训练数据生成&#10;- 移除过复杂的 BIO 标注逻辑，采用更简洁的实现&#10;- 统一编码格式为 UTF-8" />
+    <MESSAGE value="feat(dataset): 重构简历数据集生成器并集成技能注册中心&#10;&#10;- 新增工业级简历生成器，支持技能扰动和噪声文本注入&#10;- 集成技能注册中心，实现技能标准化和别名识别功能&#10;- 添加技能CSV配置文件生成工具，统一技能管理&#10;- 重构数据集生成流程，支持命令行参数配置&#10;- 引入进度条显示，提升用户体验&#10;- 更新项目目录结构，分离配置和源码模块" />
+    <MESSAGE value="refactor(dataset): 重构数据集生成和NER训练流程&#10;&#10;- 移除旧的dataset_generator.py文件&#10;- 将数据生成逻辑整合到IndustrialResumeGenerator类中&#10;- 更新NER数据构建器使用SkillRegistry进行技能提取&#10;- 修复正则表达式匹配和标签对齐问题&#10;- 添加完整的数据生成-NER构建-模型训练流水线&#10;- 优化训练参数配置和数据集处理逻辑" />
+    <MESSAGE value="feat(generator): 扩展数据集生成并新增技能提取功能&#10;&#10;- 将数据集生成样本数从500增加到5000&#10;- 新增predict_skills.py实现NER技能提取功能&#10;- 新增predict_skills_folder.py实现批量简历技能提取&#10;- 删除过时的简历示例文件&#10;- 优化SkillRegistry类的分类统计方法&#10;- 重构训练数据集类以支持可变最大长度参数" />
+    <MESSAGE value="refactor(predict_skills_folder): 更新技能注册表导入路径&#10;&#10;- 将 from src.skill_registry import SkillRegistry 修改为 from skill_registry import SkillRegistry&#10;- 修正了模块导入的相对路径引用" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor(predict_skills_folder): 更新技能注册表导入路径&#10;&#10;- 将 from src.skill_registry import SkillRegistry 修改为 from skill_registry import SkillRegistry&#10;- 修正了模块导入的相对路径引用" />
   </component>
 </project>
